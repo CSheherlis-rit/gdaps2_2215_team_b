@@ -4,11 +4,10 @@
 _This README contains basic information about the project and its artifacts. If kept up to date, it will act as a primary dashboard for the project._
 
 ## Team Members
-- John Derstine
 - Christian Sheherlis
-- MEMBER3
-- MEMBER4
-- MEMBER5
+- John Derstine
+- Amanda Rowe
+- Amelia Roberts
 
 ## Repo Organization
 - [game/](game/) - Contains the main MonoGame project. Notes about how to run the game are in [game/README.md](game/README.md).

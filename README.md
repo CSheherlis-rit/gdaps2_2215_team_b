@@ -6,6 +6,7 @@ _This README contains basic information about the project and its artifacts. If 
 ## Team Members
 - MEMBER1
 - Christian Sheherlis
+- John Derstine
 - Amanda Rowe
 - MEMBER3
 - MEMBER4

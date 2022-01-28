@@ -5,7 +5,7 @@ _This README contains basic information about the project and its artifacts. If 
 
 ## Team Members
 - MEMBER1
-- MEMBER2
+- Christian Sheherlis
 - MEMBER3
 - MEMBER4
 - MEMBER5

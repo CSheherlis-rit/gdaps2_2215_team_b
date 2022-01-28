@@ -4,9 +4,8 @@
 _This README contains basic information about the project and its artifacts. If kept up to date, it will act as a primary dashboard for the project._
 
 ## Team Members
-- MEMBER1
-- Christian Sheherlis
 - John Derstine
+- Christian Sheherlis
 - MEMBER3
 - MEMBER4
 - MEMBER5

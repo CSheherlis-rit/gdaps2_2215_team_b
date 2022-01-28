@@ -7,8 +7,7 @@ _This README contains basic information about the project and its artifacts. If 
 - Christian Sheherlis
 - John Derstine
 - Amanda Rowe
-- MEMBER4
-- MEMBER5
+- Amelia Roberts
 
 ## Repo Organization
 - [game/](game/) - Contains the main MonoGame project. Notes about how to run the game are in [game/README.md](game/README.md).

@@ -115,6 +115,8 @@ namespace Puck_Duck
                         "Press M to switch to main menu\n" +
                         "Press C to switch to level clear", new Vector2(10, 10), Color.Black);
 
+                    
+
                     break;
 
                 case GameState.LevelClear:

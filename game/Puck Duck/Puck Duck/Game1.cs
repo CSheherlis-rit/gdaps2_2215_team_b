@@ -17,8 +17,16 @@ namespace Puck_Duck
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private SpriteFont defaultFont;
+        private Texture2D wall;
+        private Texture2D empty;
 
         private GameState currentState;
+
+        private const int windowWidth = 800;
+        private const int windowHeight = 800;
+        private Rectangle tilePos;
+
+        private TileMap tileMap = new TileMap(windowWidth / 32, windowHeight / 32);
 
         public Game1()
         {
@@ -33,6 +41,14 @@ namespace Puck_Duck
 
             currentState = GameState.MainMenu;
 
+            //window size
+            _graphics.PreferredBackBufferWidth = windowWidth;
+            _graphics.PreferredBackBufferHeight = windowHeight;
+            _graphics.ApplyChanges();
+
+            //generate the tile map
+            tileMap.GenerateTileMap();
+
             base.Initialize();
         }
 
@@ -41,6 +57,8 @@ namespace Puck_Duck
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            wall = Content.Load<Texture2D>("WallFiller");
+            empty = Content.Load<Texture2D>("EmptyFiller");
 
             defaultFont = this.Content.Load<SpriteFont>("Default");
         }
@@ -78,6 +96,13 @@ namespace Puck_Duck
                     {
                         currentState = GameState.LevelClear;
                     }
+                    
+                    // if no level has been generated, generate it
+                    if (tileMap.Level == null)
+                    {
+                        //make the TileMap the size of the window divided by tile size
+                        tileMap.GenerateTileMap();
+                    }
 
                     break;
 
@@ -111,9 +136,30 @@ namespace Puck_Duck
                     break;
 
                 case GameState.Gameplay:
+
                     _spriteBatch.DrawString(defaultFont, "Now in gameplay\n" +
                         "Press M to switch to main menu\n" +
                         "Press C to switch to level clear", new Vector2(10, 10), Color.Black);
+
+                    //draw the tiles for the level
+                    for (int i = 0; i < tileMap.Level.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < tileMap.Level.GetLength(1); j++)
+                        {
+                            tilePos = new Rectangle( i * 32, j * 32, wall.Width, wall.Height);
+                            //if empty
+                            if (tileMap.Level[i,j].Type == 0)
+                            {
+                                _spriteBatch.Draw(empty, tilePos, Color.White);
+                            }
+                            //if wall
+                            else if (tileMap.Level[i, j].Type == 1)
+                            {
+                                _spriteBatch.Draw(wall, tilePos, Color.White);
+                            }
+                            // add code for goal and piston when we get there
+                        }
+                    }
 
                     break;
 

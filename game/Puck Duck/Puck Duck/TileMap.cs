@@ -36,7 +36,7 @@ namespace Puck_Duck
                     //if border tile, make it a wall
                     if (i == 0 || j == 0 || j == level.GetLength(1) - 1 || i == level.GetLength(0) - 1)
                     {
-                        level[i, j] = new Tile(1);
+                        level[i, j] = new Tile(Type.Wall);
                     }
                     //if not border tile, make it empty
                     else

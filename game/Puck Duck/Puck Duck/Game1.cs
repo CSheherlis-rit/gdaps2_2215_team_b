@@ -148,16 +148,18 @@ namespace Puck_Duck
                         {
                             tilePos = new Rectangle( i * 32, j * 32, wall.Width, wall.Height);
                             //if empty
-                            if (tileMap.Level[i,j].Type == 0)
+                            if (tileMap.Level[i,j].Type == Type.Empty)
                             {
                                 _spriteBatch.Draw(empty, tilePos, Color.White);
                             }
                             //if wall
-                            else if (tileMap.Level[i, j].Type == 1)
+                            else if (tileMap.Level[i, j].Type == Type.Wall)
                             {
                                 _spriteBatch.Draw(wall, tilePos, Color.White);
                             }
                             // add code for goal and piston when we get there
+
+                            tileMap.Level[i, j].Position = tilePos;
                         }
                     }
 

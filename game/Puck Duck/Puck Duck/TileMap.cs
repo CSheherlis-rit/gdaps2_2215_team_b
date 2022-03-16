@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace Puck_Duck
 {
@@ -24,26 +25,44 @@ namespace Puck_Duck
 
         //methods
         //creates multi-dimensional array of tiles
-        //NOTE THIS WILL BE REPLACED WITH A DATA DRIVEN VERSION
-        //THAT TAKES TILE TYPES LIKE WALLS AND PISTIONS AND LOADS THEM
-        //FROM FILE
         public Tile[,] GenerateTileMap()
         {
+            // variable that may later be changed into a field in order to use different filenames
+            string filename = "../../../test.csv";
+            
+            StreamReader input = null;
+
+            input = new StreamReader(filename);
+
+            string line = null;
+
+            // reading the text file
+            // advancing to the next row
             for (int i = 0; i < level.GetLength(0); i++)
             {
+                line = input.ReadLine();
+                string[] data = line.Split(',');
+
+                // filling the row
                 for (int j = 0; j < level.GetLength(1); j++)
                 {
-                    //if border tile, make it a wall
-                    if (i == 0 || j == 0 || j == level.GetLength(1) - 1 || i == level.GetLength(0) - 1)
+                    // reading a "w" creates a wall
+                    if (data[j] == "w")
                     {
-                        level[i, j] = new Tile(Type.Wall);
+                        level[j, i] = new Tile(Type.Wall);
                     }
-                    //if not border tile, make it empty
-                    else
+                    // reading an "e" creates an empty tile
+                    else if (data[j] == "e")
                     {
-                        level[i, j] = new Tile(0);
+                        level[j, i] = new Tile(Type.Empty);
                     }
                 }
+            }
+
+            // closing the opened text file
+            if (input != null)
+            {
+                input.Close();
             }
             return level;
         }

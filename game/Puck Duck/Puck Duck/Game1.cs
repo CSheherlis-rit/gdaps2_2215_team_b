@@ -159,6 +159,7 @@ namespace Puck_Duck
                             }
                             // add code for goal and piston when we get there
 
+                            // setting the current tile position as a property for the current tile
                             tileMap.Level[i, j].Position = tilePos;
                         }
                     }

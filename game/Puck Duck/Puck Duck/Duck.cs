@@ -109,12 +109,12 @@ namespace Puck_Duck
                         }
 
                         //move in the direction of a piston-type
-                        else if(map.Level[j, i].Type == Type.Piston)
+                        /*else if(map.Level[j, i].Type == Type.Piston)
                         {
                             //CHANGE WHEN PISTONS ARE IMPLEMENTED*******
                             //PistonPush();
                             return true;
-                        }
+                        }*/
                     }
                 }
             }

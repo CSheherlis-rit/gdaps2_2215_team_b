@@ -11,7 +11,10 @@ namespace Puck_Duck
     {
         Empty,
         Wall,
-        Piston,
+        UpPiston,
+        DownPiston,
+        RightPiston,
+        LeftPiston,
         Goal,
         Start
     }

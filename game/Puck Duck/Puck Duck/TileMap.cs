@@ -46,15 +46,47 @@ namespace Puck_Duck
                 // filling the row
                 for (int j = 0; j < level.GetLength(1); j++)
                 {
-                    // reading a "w" creates a wall
-                    if (data[j] == "w")
+                    switch (data[j])
                     {
-                        level[j, i] = new Tile(Type.Wall);
-                    }
-                    // reading an "e" creates an empty tile
-                    else if (data[j] == "e")
-                    {
-                        level[j, i] = new Tile(Type.Empty);
+                        // "w" creates a wall
+                        case "w":
+                            level[j, i] = new Tile(Type.Wall);
+                            break;
+
+                        // "e" creates an empty tile
+                        case "e":
+                            level[j, i] = new Tile(Type.Empty);
+                            break;
+
+                        // "g" creates the goal
+                        case "g":
+                            level[j, i] = new Tile(Type.Goal);
+                            break;
+
+                        // "u" creates an upwards facing piston
+                        case "u":
+                            level[j, i] = new Tile(Type.UpPiston);
+                            break;
+
+                        // "d" creates a downwards facing piston
+                        case "d":
+                            level[j, i] = new Tile(Type.DownPiston);
+                            break;
+
+                        // "r" creates a right facing piston
+                        case "r":
+                            level[j, i] = new Tile(Type.RightPiston);
+                            break;
+
+                        // "l" creates a left facing piston
+                        case "l":
+                            level[j, i] = new Tile(Type.LeftPiston);
+                            break;
+
+                        // "s" creates the start tile
+                        case "s":
+                            level[j, i] = new Tile(Type.Start);
+                            break;
                     }
                 }
             }

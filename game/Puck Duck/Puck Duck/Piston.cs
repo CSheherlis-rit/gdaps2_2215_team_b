@@ -10,7 +10,7 @@ namespace Puck_Duck
     class Piston
     {
         private TileMap tileMap;
-        private KeyboardState currentKbState;
+        private KeyboardState currentKbState = new KeyboardState();
         private List<Tile> pistons = new List<Tile>();
 
         public Piston(TileMap tileMap)
@@ -48,6 +48,8 @@ namespace Puck_Duck
         //returns a list of all of them
         public List<Tile> GetPistons(Type type)
         {
+            pistons.Clear();
+
             for (int i = 0; i < tileMap.Level.GetLength(0); i++)
             {
                 for (int j = 0; j < tileMap.Level.GetLength(1); j++)

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System.Threading;
 using System;
 using System.Collections.Generic;
@@ -24,11 +25,25 @@ namespace Puck_Duck
     class Duck
     {
         //fields
-        private Direction movement;
-        private Rectangle duck;
-        private TileMap map;
 
-        
+        //start with the duck not moving
+        private Direction movement;
+
+        private int speed = 3;
+        private Texture2D duck;
+        private Rectangle position;
+        private bool spawned = false;
+
+        //constructor
+        ///set size of duck rectangle??
+        ///set speed to width of tiles
+        public Duck(Texture2D duck, Rectangle position, Direction movement)
+        {
+            this.position = position;
+            this.movement = movement;
+            this.duck = duck;
+        }
+
         //properties
         public Direction Movement
         {
@@ -36,17 +51,35 @@ namespace Puck_Duck
             set { movement = value; }
         }
 
-        //constructor
-        ///set size of duck rectangle??
-        ///set speed to width of tiles
-        public Duck(Rectangle rectangle, Direction movement, TileMap tileMap)
+        public Rectangle Position
         {
-            this.duck = rectangle;
-            this.movement = movement;
-            this.map = tileMap;
+            get { return position; }
+            set { position = value; }
         }
 
         //methods
+
+        /// <summary>
+        /// Spawns duck at starting postition
+        /// </summary>
+        /// <param name="startPos"></param>
+        public void Spawn(Rectangle startPos)
+        {
+            while (!spawned)
+            {
+                position = startPos;
+                spawned = true;
+            }
+        }
+
+        /// <summary>
+        /// Draws the duck
+        /// </summary>
+        /// <param name="sb"></param>
+        public void Draw(SpriteBatch sb)
+        {
+            sb.Draw(duck, position, Color.White);
+        }
 
         //return the direction of a interacted piston
         /*public Direction PistonPush()
@@ -54,36 +87,37 @@ namespace Puck_Duck
 
         }*/
 
-        //return movement in the opposite direction
-        public void Bounce()
+        /// <summary>
+        /// Move puck in the opposite direction
+        /// </summary>
+        public Direction Bounce()
         {
             switch (movement)
             {
                 case Direction.Up:
-                    movement = Direction.Down;
-                    break;
+                    return Direction.Down;
 
                 case Direction.Down:
-                    movement = Direction.Up;
-                    break;
+                    return Direction.Up;
 
                 case Direction.Right:
-                    movement = Direction.Left;
-                    break;
+                    return Direction.Left;
 
                 case Direction.Left:
-                    movement = Direction.Right;
-                    break;
+                    return Direction.Right;
 
                 default:
-                    movement = Direction.Stop;
-                    break;
+                    return Direction.Stop;
             }
         }
-        
-        ///check for tile collisions by looping through the tile map
-        ///if one is detected, return new puck direction
-        public bool CheckCollision()
+
+        /// <summary>
+        /// Check for tile collisions by looping through the tile map.
+        /// If one is detected, return true
+        /// </summary>
+        /// <param name="map"></param>
+        /// <returns></returns>
+        public Direction CheckCollision(TileMap map)
         {
             //run through all the tilemap tiles
             for (int i = 0; i < map.Level.GetLength(0); i++)
@@ -91,80 +125,62 @@ namespace Puck_Duck
                 for (int j = 0; j < map.Level.GetLength(1); j++)
                 {
                     //check for an intersection with a tile
-                    if(duck.Intersects(map.Level[j, i].Position))
+                    if (position.Intersects(map.Level[j, i].Position))
                     {
 
-                        //bounce the puck if it hits a wall
-                        if(map.Level[j,i].Type == Type.Wall)
+                        //bounce the puck if it hits a wall or a closed piston
+                        if (map.Level[j, i].Type == Type.Wall ||
+                            map.Level[j, i].Type == Type.UpPiston ||
+                            map.Level[j, i].Type == Type.DownPiston ||
+                            map.Level[j, i].Type == Type.LeftPiston ||
+                            map.Level[j, i].Type == Type.RightPiston)
                         {
-                            Bounce();
-                            return true;
+                            return Bounce();
                         }
 
                         //stops the puck in the goal
-                        else if(map.Level[j, i].Type == Type.Goal)
+                        else if (map.Level[j, i].Type == Type.Goal)
                         {
-                            movement = Direction.Stop;
-                            return true;
+                            return Direction.Stop;
                         }
-
-                        //move in the direction of a piston-type
-                        /*else if(map.Level[j, i].Type == Type.Piston)
-                        {
-                            //CHANGE WHEN PISTONS ARE IMPLEMENTED*******
-                            //PistonPush();
-                            return true;
-                        }*/
                     }
                 }
             }
-            //if no tile collisions are detected, return false
-            return false;
+            //if no tile collisions are detected, return
+            return Movement;
         }
-        
+
         /// <summary>
         /// updates the position of the duck
         /// by incrementing it every second if no collisions are detected
         /// </summary>
         /// <param name="gameTime"></param>
+        /// <param name="map"></param>
         public void Update(GameTime gameTime, TileMap map)
         {
             switch (movement)
             {
                 case Direction.Up:
-                    if(CheckCollision() == false)
-                    {
-                        Thread.Sleep(1000);
-                        duck.Y = duck.Y - 32;
-                    }
+                    position.Y = position.Y - speed;
+                    Movement = CheckCollision(map);
                     break;
 
                 case Direction.Down:
-                    if (CheckCollision() == false)
-                    {
-                        Thread.Sleep(1000);
-                        duck.Y = duck.Y + 32;
-                    }
+                    position.Y = position.Y + speed;
+                    Movement = CheckCollision(map);
                     break;
 
                 case Direction.Right:
-                    if (CheckCollision() == false)
-                    {
-                        Thread.Sleep(1000);
-                        duck.X = duck.X + 32;
-                    }
+                    position.X = position.X + speed;
+                    Movement = CheckCollision(map);
                     break;
 
                 case Direction.Left:
-                    if (CheckCollision() == false)
-                    {
-                        Thread.Sleep(1000);
-                        duck.X = duck.X - 32;
-                    }
+                    position.X = position.X - speed;
+                    Movement = CheckCollision(map);
                     break;
 
                 case Direction.Stop:
-                    CheckCollision();
                     break;
             }
         }

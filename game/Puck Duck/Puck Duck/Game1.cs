@@ -26,6 +26,8 @@ namespace Puck_Duck
         private Texture2D rightPiston;
         private Texture2D goal;
         private Texture2D pistonHead;
+        private Texture2D puck;
+        private Duck duck;
 
         private GameState currentState;
  
@@ -79,8 +81,12 @@ namespace Puck_Duck
             rightPiston = Content.Load<Texture2D>("PistonRightFiller");
             goal = Content.Load<Texture2D>("GoalFiller");
             pistonHead = Content.Load<Texture2D>("PistonHead-export");
+            puck = Content.Load<Texture2D>("duck");
 
             defaultFont = this.Content.Load<SpriteFont>("Default");
+
+            //create duck object
+            duck = new Duck(puck, new Rectangle(0, 0, 20, 20), Direction.Right);
         }
 
         protected override void Update(GameTime gameTime)
@@ -124,6 +130,9 @@ namespace Puck_Duck
                         tileMap.GenerateTileMap();
                     }
 
+                    //move puck duck
+                    duck.Update(gameTime, tileMap);
+
                     //check if pistons are being extended
                     pistonsToExtend = pistons.checkInput();
 
@@ -163,6 +172,9 @@ namespace Puck_Duck
                     _spriteBatch.DrawString(defaultFont, "Now in gameplay\n" +
                         "Press M to switch to main menu\n" +
                         "Press C to switch to level clear", new Vector2(10, 10), Color.Black);
+
+                    //temp variable for duck spawning
+                    Rectangle startPos = new Rectangle();
 
                     //draw the tiles for the level
                     for (int i = 0; i < tileMap.Level.GetLength(0); i++)
@@ -212,6 +224,7 @@ namespace Puck_Duck
                                 // start tile
                                 case Type.Start:
                                     _spriteBatch.Draw(empty, tilePos, Color.Yellow);
+                                    startPos = tilePos;
                                     break;
                             }
 
@@ -219,6 +232,11 @@ namespace Puck_Duck
                             tileMap.Level[i, j].Position = tilePos;
                         }
                     }
+
+                    //draw duck at location of start tile
+                    duck.Draw(_spriteBatch);
+                    duck.Spawn(startPos);
+                   
 
                     //draw piston heads
                     if (pistonsToExtend != null)
@@ -230,7 +248,7 @@ namespace Puck_Duck
                             {
                                 //set position of the piston head infront of the piston
                                 headPos = pistonsToExtend[i].Position;
-                                headPos.Y = headPos.Y + 32;
+                                headPos.Y = headPos.Y - 32;
                                 _spriteBatch.Draw(pistonHead, headPos, Color.White);
                             }
                             if (pistonsToExtend[0].Type == Type.DownPiston)

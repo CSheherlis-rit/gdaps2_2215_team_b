@@ -81,7 +81,7 @@ namespace Puck_Duck
             }
         }
         
-        ///check for special collisions by looping through the tile map
+        ///check for tile collisions by looping through the tile map
         ///if one is detected, return new puck direction
         public bool CheckCollision()
         {
@@ -118,7 +118,7 @@ namespace Puck_Duck
                     }
                 }
             }
-            //if no special collisions are detected, return false
+            //if no tile collisions are detected, return false
             return false;
         }
         

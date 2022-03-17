@@ -60,6 +60,9 @@ namespace Puck_Duck
             tileMap.GenerateTileMap();
             pistons = new Piston(tileMap);
 
+            //initialize pistonsToExtend list
+            pistonsToExtend = new List<Tile>();
+
             base.Initialize();
         }
 

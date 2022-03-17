@@ -9,8 +9,11 @@ namespace Puck_Duck
     enum GameState
     {
         MainMenu,
+        Instructions,
         Gameplay,
         LevelClear,
+        LevelFail,
+        LevelWon
     }
 
     public class Game1 : Game
@@ -35,6 +38,9 @@ namespace Puck_Duck
         private const int windowHeight = 800;
         private Rectangle tilePos;
         private Rectangle headPos;
+
+        private KeyboardState kbState;
+        private KeyboardState prevKbState;
 
         private TileMap tileMap = new TileMap(windowWidth / 32, windowHeight / 32);
         private Piston pistons;
@@ -64,6 +70,7 @@ namespace Puck_Duck
 
             //initialize pistonsToExtend list
             pistonsToExtend = new List<Tile>();
+
 
             base.Initialize();
         }
@@ -96,30 +103,41 @@ namespace Puck_Duck
 
             // TODO: Add your update logic here
 
-            KeyboardState kbState = Keyboard.GetState();
+            kbState = Keyboard.GetState();
 
             // switching game state
             switch(currentState)
             {
-                // switching to gameplay
+                
                 case GameState.MainMenu:
-                    if (kbState.IsKeyDown(Keys.G))
+                    if (kbState.IsKeyDown(Keys.G)&& prevKbState.IsKeyUp(Keys.G))
                     {
+                        // switch to instructions
+                        currentState = GameState.Instructions;
+                    }
+
+                    break;
+
+                case GameState.Instructions:
+                    if (kbState.IsKeyDown(Keys.G) && prevKbState.IsKeyUp(Keys.G))
+                    {
+                        //switch to gameplay
                         currentState = GameState.Gameplay;
                     }
 
                     break;
 
                 case GameState.Gameplay:
-                    // switching to main menu
+                    
                     if (kbState.IsKeyDown(Keys.M))
                     {
+                        //switch to main menu
                         currentState = GameState.MainMenu;
                     }
-
-                    // switching to level clear
+                    
                     if (kbState.IsKeyDown(Keys.C))
                     {
+                        //switch to level clear
                         currentState = GameState.LevelClear;
                     }
                     
@@ -139,14 +157,39 @@ namespace Puck_Duck
                     break;
 
                 case GameState.LevelClear:
-                    // switching to main menu
+                    
                     if (kbState.IsKeyDown(Keys.M))
                     {
+                        //switch to main menu
+                        currentState = GameState.MainMenu;
+                    }
+
+                    break;
+
+                case GameState.LevelFail:
+                    //will be added later - when conditions are not met
+
+                    if (kbState.IsKeyDown(Keys.M))
+                    {
+                        //switch to main menu
+                        currentState = GameState.MainMenu;
+                    }
+
+                    break;
+                case GameState.LevelWon:
+                    //will be added later - when goal is reached
+
+                    if (kbState.IsKeyDown(Keys.M))
+                    {
+                        //switch to main menu
                         currentState = GameState.MainMenu;
                     }
 
                     break;
             }
+
+            // update prevKbState
+            prevKbState = kbState;
 
             base.Update(gameTime);
         }
@@ -163,15 +206,21 @@ namespace Puck_Duck
             {
                 case GameState.MainMenu:
                     _spriteBatch.DrawString(defaultFont, "Now in main menu\n" +
-                        "Press G to switch to gameplay", new Vector2(10, 10), Color.Black);
+                        "Press G to see the instructions", new Vector2(10, 10), Color.Black);
+
+                    break;
+
+                case GameState.Instructions:
+                    _spriteBatch.DrawString(defaultFont, "Instructions:\n" +
+                         "Press M to switch to main menu\n" +
+                         "Press C to switch to level clear\n\n" +
+                         "Press G to play", new Vector2(10, 10), Color.Black);
 
                     break;
 
                 case GameState.Gameplay:
 
-                    _spriteBatch.DrawString(defaultFont, "Now in gameplay\n" +
-                        "Press M to switch to main menu\n" +
-                        "Press C to switch to level clear", new Vector2(10, 10), Color.Black);
+                    _spriteBatch.DrawString(defaultFont, "Now in gameplay", new Vector2(10, 10), Color.Black);
 
                     //temp variable for duck spawning
                     Rectangle startPos = new Rectangle();
@@ -271,6 +320,14 @@ namespace Puck_Duck
                 case GameState.LevelClear:
                     _spriteBatch.DrawString(defaultFont, "Now in level clear\n" +
                         "Press M to switch to main menu", new Vector2(10, 10), Color.Black);
+                    break;
+                case GameState.LevelFail:
+                    _spriteBatch.DrawString(defaultFont, "You lost :(\n" +
+                        "Press M to return to main menu", new Vector2(10, 10), Color.Black);
+                    break;
+                case GameState.LevelWon:
+                    _spriteBatch.DrawString(defaultFont, "Level complete!\n" +
+                        "Press M to return to main menu", new Vector2(10, 10), Color.Black);
                     break;
             }
 

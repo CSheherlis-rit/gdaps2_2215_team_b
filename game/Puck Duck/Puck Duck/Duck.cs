@@ -81,12 +81,6 @@ namespace Puck_Duck
             sb.Draw(duck, position, Color.White);
         }
 
-        //return the direction of a interacted piston
-        /*public Direction PistonPush()
-        {
-
-        }*/
-
         /// <summary>
         /// Move puck in the opposite direction
         /// </summary>
@@ -151,33 +145,79 @@ namespace Puck_Duck
         }
 
         /// <summary>
+        /// return the direction of a interacted piston head
+        /// </summary>
+        /// <param name="pistonHeads"></param>
+        /// <returns></returns>
+        public Direction PistonPush(List<Tile> pistonHeads)
+        {
+            //temp variables for later comparison
+            Type headType;
+
+            foreach(Tile head in pistonHeads)
+            {
+                if (position.Intersects(head.Position))
+                {
+                    //variable for switch statement
+                    headType = head.Type;
+
+                    //set the direction to the direction of the piston head
+                    switch (headType)
+                    {
+                        case Type.UpPiston:
+                            position.X = head.Position.X;
+                            return Direction.Up;
+
+                        case Type.DownPiston:
+                            position.X = head.Position.X;
+                            return Direction.Down;
+
+                        case Type.LeftPiston:
+                            position.Y = head.Position.Y;
+                            return Direction.Left;
+
+                        case Type.RightPiston:
+                            position.Y = head.Position.Y;
+                            return Direction.Right;
+                    }
+                }
+            }
+
+            return Movement;
+        }
+
+        /// <summary>
         /// updates the position of the duck
         /// by incrementing it every second if no collisions are detected
         /// </summary>
         /// <param name="gameTime"></param>
         /// <param name="map"></param>
-        public void Update(GameTime gameTime, TileMap map)
+        public void Update(GameTime gameTime, TileMap map, List<Tile> pistonHeads)
         {
             switch (movement)
             {
                 case Direction.Up:
                     position.Y = position.Y - speed;
                     Movement = CheckCollision(map);
+                    Movement = PistonPush(pistonHeads);
                     break;
 
                 case Direction.Down:
                     position.Y = position.Y + speed;
                     Movement = CheckCollision(map);
+                    Movement = PistonPush(pistonHeads);
                     break;
 
                 case Direction.Right:
                     position.X = position.X + speed;
                     Movement = CheckCollision(map);
+                    Movement = PistonPush(pistonHeads);
                     break;
 
                 case Direction.Left:
                     position.X = position.X - speed;
                     Movement = CheckCollision(map);
+                    Movement = PistonPush(pistonHeads);
                     break;
 
                 case Direction.Stop:

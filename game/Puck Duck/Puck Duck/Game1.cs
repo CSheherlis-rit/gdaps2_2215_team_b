@@ -148,11 +148,11 @@ namespace Puck_Duck
                         tileMap.GenerateTileMap();
                     }
 
-                    //move puck duck
-                    duck.Update(gameTime, tileMap);
-
                     //check if pistons are being extended
                     pistonsToExtend = pistons.checkInput();
+
+                    //move puck duck
+                    duck.Update(gameTime, tileMap, pistonsToExtend);
 
                     break;
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace Puck_Duck
 {
@@ -19,19 +20,23 @@ namespace Puck_Duck
         private SpriteFont defaultFont;
         private Texture2D wall;
         private Texture2D empty;
+        private Texture2D downPiston;
+        private Texture2D upPiston;
+        private Texture2D leftPiston;
+        private Texture2D rightPiston;
         private Texture2D goal;
-        private Texture2D pistonUp;
-        private Texture2D pistonLeft;
-        private Texture2D pistonDown;
-        private Texture2D pistonRight;
+        private Texture2D pistonHead;
 
         private GameState currentState;
-
+ 
         private const int windowWidth = 800;
         private const int windowHeight = 800;
         private Rectangle tilePos;
+        private Rectangle headPos;
 
         private TileMap tileMap = new TileMap(windowWidth / 32, windowHeight / 32);
+        private Piston pistons;
+        List<Tile> pistonsToExtend; // list of extended pistons
 
         public Game1()
         {
@@ -53,6 +58,7 @@ namespace Puck_Duck
 
             //generate the tile map
             tileMap.GenerateTileMap();
+            pistons = new Piston(tileMap);
 
             base.Initialize();
         }
@@ -64,11 +70,12 @@ namespace Puck_Duck
             // TODO: use this.Content to load your game content here
             wall = Content.Load<Texture2D>("WallFiller");
             empty = Content.Load<Texture2D>("EmptyFiller");
+            downPiston = Content.Load<Texture2D>("PistonDownFiller");
+            upPiston = Content.Load<Texture2D>("PistonUpFiller");
+            leftPiston = Content.Load<Texture2D>("PistonLeftFiller");
+            rightPiston = Content.Load<Texture2D>("PistonRightFiller");
             goal = Content.Load<Texture2D>("GoalFiller");
-            pistonUp = Content.Load<Texture2D>("PistonUpFiller");
-            pistonRight = Content.Load<Texture2D>("PistonRightFiller");
-            pistonDown = Content.Load<Texture2D>("PistonDownFiller");
-            pistonLeft = Content.Load<Texture2D>("PistonLeftFiller");
+            pistonHead = Content.Load<Texture2D>("PistonHead-export");
 
             defaultFont = this.Content.Load<SpriteFont>("Default");
         }
@@ -114,6 +121,9 @@ namespace Puck_Duck
                         tileMap.GenerateTileMap();
                     }
 
+                    //check if pistons are being extended
+                    pistonsToExtend = pistons.checkInput();
+
                     break;
 
                 case GameState.LevelClear:
@@ -157,53 +167,64 @@ namespace Puck_Duck
                         for (int j = 0; j < tileMap.Level.GetLength(1); j++)
                         {
                             tilePos = new Rectangle( i * 32, j * 32, wall.Width, wall.Height);
-
-                            // drawing different tiles for the current type of tile
-                            switch (tileMap.Level[i, j].Type)
+                            //if empty
+                            if (tileMap.Level[i,j].Type == Type.Empty)
                             {
-                                // empty tiles
-                                case Type.Empty:
-                                    _spriteBatch.Draw(empty, tilePos, Color.White);
-                                    break;
-
-                                // walls
-                                case Type.Wall:
-                                    _spriteBatch.Draw(wall, tilePos, Color.White);
-                                    break;
-
-                                // the goal
-                                case Type.Goal:
-                                    _spriteBatch.Draw(goal, tilePos, Color.White);
-                                    break;
-
-                                // upward facing pistons
-                                case Type.UpPiston:
-                                    _spriteBatch.Draw(pistonUp, tilePos, Color.White);
-                                    break;
-
-                                // downward facing pistons
-                                case Type.DownPiston:
-                                    _spriteBatch.Draw(pistonDown, tilePos, Color.White);
-                                    break;
-
-                                // right facing pistons
-                                case Type.RightPiston:
-                                    _spriteBatch.Draw(pistonRight, tilePos, Color.White);
-                                    break;
-
-                                // left facing pistons
-                                case Type.LeftPiston:
-                                    _spriteBatch.Draw(pistonLeft, tilePos, Color.White);
-                                    break;
-
-                                // start tile
-                                case Type.Start:
-                                    _spriteBatch.Draw(empty, tilePos, Color.Yellow);
-                                    break;
+                                _spriteBatch.Draw(empty, tilePos, Color.White);
                             }
+                            //if wall
+                            else if (tileMap.Level[i, j].Type == Type.Wall)
+                            {
+                                _spriteBatch.Draw(wall, tilePos, Color.White);
+                            }
+                            else if (tileMap.Level[i, j].Type == Type.DownPiston)
+                            {
+                                _spriteBatch.Draw(downPiston, tilePos, Color.White);
+                            }
+                            else if (tileMap.Level[i, j].Type == Type.UpPiston)
+                            {
+                                _spriteBatch.Draw(upPiston, tilePos, Color.White);
+                            }
+                            else if (tileMap.Level[i, j].Type == Type.LeftPiston)
+                            {
+                                _spriteBatch.Draw(leftPiston, tilePos, Color.White);
+                            }
+                            else if (tileMap.Level[i, j].Type == Type.RightPiston)
+                            {
+                                _spriteBatch.Draw(rightPiston, tilePos, Color.White);
+                            }
+                            else if (tileMap.Level[i, j].Type == Type.Goal)
+                            {
+                                _spriteBatch.Draw(goal, tilePos, Color.White);
+                            }
+                        }
+                    }
 
-                            // setting the current tile position as a property for the current tile
-                            tileMap.Level[i, j].Position = tilePos;
+                    //draw piston heads
+                    if (pistonsToExtend != null)
+                    {
+                        //draw extended piston heads in front of all pistons
+                        for (int i = 0; i < pistonsToExtend.Count; i++)
+                        {
+                            if (pistonsToExtend[0].Type == Type.UpPiston)
+                            {
+                                //set position of the piston head infront of the piston
+                                headPos = pistonsToExtend[i].Position;
+                                headPos.Y = headPos.Y + 32;
+                                _spriteBatch.Draw(pistonHead, headPos, Color.White);
+                            }
+                            if (pistonsToExtend[0].Type == Type.DownPiston)
+                            {
+                                //draw extended piston head in front of piston
+                            }
+                            if (pistonsToExtend[0].Type == Type.LeftPiston)
+                            {
+                                //draw extended piston head in front of piston
+                            }
+                            if (pistonsToExtend[0].Type == Type.RightPiston)
+                            {
+                                //draw extended piston head in front of piston
+                            }
                         }
                     }
 

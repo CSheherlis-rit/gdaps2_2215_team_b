@@ -167,36 +167,53 @@ namespace Puck_Duck
                         for (int j = 0; j < tileMap.Level.GetLength(1); j++)
                         {
                             tilePos = new Rectangle( i * 32, j * 32, wall.Width, wall.Height);
-                            //if empty
-                            if (tileMap.Level[i,j].Type == Type.Empty)
+
+                            // drawing different tiles for the current type of tile
+                            switch (tileMap.Level[i, j].Type)
                             {
-                                _spriteBatch.Draw(empty, tilePos, Color.White);
+                                // empty tiles
+                                case Type.Empty:
+                                    _spriteBatch.Draw(empty, tilePos, Color.White);
+                                    break;
+
+                                // walls
+                                case Type.Wall:
+                                    _spriteBatch.Draw(wall, tilePos, Color.White);
+                                    break;
+
+                                // the goal
+                                case Type.Goal:
+                                    _spriteBatch.Draw(goal, tilePos, Color.White);
+                                    break;
+
+                                // upward facing pistons
+                                case Type.UpPiston:
+                                    _spriteBatch.Draw(upPiston, tilePos, Color.White);
+                                    break;
+
+                                // downward facing pistons
+                                case Type.DownPiston:
+                                    _spriteBatch.Draw(downPiston, tilePos, Color.White);
+                                    break;
+
+                                // right facing pistons
+                                case Type.RightPiston:
+                                    _spriteBatch.Draw(rightPiston, tilePos, Color.White);
+                                    break;
+
+                                // left facing pistons
+                                case Type.LeftPiston:
+                                    _spriteBatch.Draw(leftPiston, tilePos, Color.White);
+                                    break;
+
+                                // start tile
+                                case Type.Start:
+                                    _spriteBatch.Draw(empty, tilePos, Color.Yellow);
+                                    break;
                             }
-                            //if wall
-                            else if (tileMap.Level[i, j].Type == Type.Wall)
-                            {
-                                _spriteBatch.Draw(wall, tilePos, Color.White);
-                            }
-                            else if (tileMap.Level[i, j].Type == Type.DownPiston)
-                            {
-                                _spriteBatch.Draw(downPiston, tilePos, Color.White);
-                            }
-                            else if (tileMap.Level[i, j].Type == Type.UpPiston)
-                            {
-                                _spriteBatch.Draw(upPiston, tilePos, Color.White);
-                            }
-                            else if (tileMap.Level[i, j].Type == Type.LeftPiston)
-                            {
-                                _spriteBatch.Draw(leftPiston, tilePos, Color.White);
-                            }
-                            else if (tileMap.Level[i, j].Type == Type.RightPiston)
-                            {
-                                _spriteBatch.Draw(rightPiston, tilePos, Color.White);
-                            }
-                            else if (tileMap.Level[i, j].Type == Type.Goal)
-                            {
-                                _spriteBatch.Draw(goal, tilePos, Color.White);
-                            }
+
+                            // setting the current tile position as a property for the current tile
+                            tileMap.Level[i, j].Position = tilePos;
                         }
                     }
 

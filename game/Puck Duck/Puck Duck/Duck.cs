@@ -199,7 +199,7 @@ namespace Puck_Duck
                 case Direction.Up:
                     position.Y = position.Y - speed;
                     Movement = CheckCollision(map);
-                    if(pistonHeads != null)
+                    if (pistonHeads != null)
                     {
                         Movement = PistonPush(pistonHeads);
                     }

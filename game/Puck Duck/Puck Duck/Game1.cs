@@ -28,8 +28,11 @@ namespace Puck_Duck
         private Texture2D leftPiston;
         private Texture2D rightPiston;
         private Texture2D goal;
-        private Texture2D pistonHead;
+        private Texture2D pistonHeadUp;
         private Texture2D puck;
+        private Texture2D pistonHeadLeft;
+        private Texture2D pistonHeadRight;
+        private Texture2D pistonHeadDown;
         private Duck duck;
 
         private GameState currentState;
@@ -87,7 +90,10 @@ namespace Puck_Duck
             leftPiston = Content.Load<Texture2D>("PistonLeftFiller");
             rightPiston = Content.Load<Texture2D>("PistonRightFiller");
             goal = Content.Load<Texture2D>("GoalFiller");
-            pistonHead = Content.Load<Texture2D>("PistonHead-export");
+            pistonHeadUp = Content.Load<Texture2D>("PistonHead-export");
+            pistonHeadRight = Content.Load<Texture2D>("PistonHeadRight");
+            pistonHeadLeft = Content.Load<Texture2D>("PistonHeadLeft");
+            pistonHeadDown = Content.Load<Texture2D>("PistonHeadDown");
             puck = Content.Load<Texture2D>("duck");
 
             defaultFont = this.Content.Load<SpriteFont>("Default");
@@ -298,19 +304,25 @@ namespace Puck_Duck
                                 //set position of the piston head infront of the piston
                                 headPos = pistonsToExtend[i].Position;
                                 headPos.Y = headPos.Y - 32;
-                                _spriteBatch.Draw(pistonHead, headPos, Color.White);
+                                _spriteBatch.Draw(pistonHeadUp, headPos, Color.White);
                             }
                             if (pistonsToExtend[0].Type == Type.DownPiston)
                             {
-                                //draw extended piston head in front of piston
+                                headPos = pistonsToExtend[i].Position;
+                                headPos.Y = headPos.Y + 32;
+                                _spriteBatch.Draw(pistonHeadDown, headPos, Color.White);
                             }
                             if (pistonsToExtend[0].Type == Type.LeftPiston)
                             {
-                                //draw extended piston head in front of piston
+                                headPos = pistonsToExtend[i].Position;
+                                headPos.X = headPos.X - 32;
+                                _spriteBatch.Draw(pistonHeadLeft, headPos, Color.White);
                             }
                             if (pistonsToExtend[0].Type == Type.RightPiston)
                             {
-                                //draw extended piston head in front of piston
+                                headPos = pistonsToExtend[i].Position;
+                                headPos.X = headPos.X + 32;
+                                _spriteBatch.Draw(pistonHeadRight, headPos, Color.White);
                             }
                         }
                     }

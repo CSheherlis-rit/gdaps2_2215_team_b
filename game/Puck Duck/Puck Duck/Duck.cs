@@ -141,6 +141,7 @@ namespace Puck_Duck
                         //stops the puck in the goal
                         else if (map.Level[j, i].Type == Type.Goal)
                         {
+                            position = map.Level[j, i].Position;
                             return Direction.Stop;
                         }
                     }

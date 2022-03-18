@@ -57,6 +57,12 @@ namespace Puck_Duck
             set { position = value; }
         }
 
+        public bool Spawned
+        {
+            get { return spawned; }
+            set { spawned = value; }
+        }
+
         //methods
 
         /// <summary>
@@ -149,36 +155,40 @@ namespace Puck_Duck
         /// </summary>
         /// <param name="pistonHeads"></param>
         /// <returns></returns>
-        public Direction PistonPush(List<Tile> pistonHeads)
+        public Direction PistonPush(List<Tile> pistons, List<Rectangle> pistonHeads)
         {
             //temp variables for later comparison
             Type headType;
 
-            foreach(Tile head in pistonHeads)
+            for (int i = 0; i < pistonHeads.Count; i++)
             {
-                if (position.Intersects(head.Position))
+                if (position.Intersects(pistonHeads[i]))
                 {
                     //variable for switch statement
-                    headType = head.Type;
-
-                    //set the direction to the direction of the piston head
-                    switch (headType)
+                    if (pistons != null)
                     {
-                        case Type.UpPiston:
-                            position.X = head.Position.X;
-                            return Direction.Up;
+                        headType = pistons[i].Type;
 
-                        case Type.DownPiston:
-                            position.X = head.Position.X;
-                            return Direction.Down;
+                        //set the direction to the direction of the piston head
+                        switch (headType)
+                        {
+                            case Type.UpPiston:
+                                position.X = pistonHeads[i].X;
+                                return Direction.Up;
 
-                        case Type.LeftPiston:
-                            position.Y = head.Position.Y;
-                            return Direction.Left;
+                            case Type.DownPiston:
+                                position.X = pistonHeads[i].X;
+                                return Direction.Down;
 
-                        case Type.RightPiston:
-                            position.Y = head.Position.Y;
-                            return Direction.Right;
+                            case Type.LeftPiston:
+                                position.Y = pistonHeads[i].Y;
+                                return Direction.Left;
+
+                            case Type.RightPiston:
+                                position.Y = pistonHeads[i].Y;
+                                return Direction.Right;
+                        }
+
                     }
                 }
             }
@@ -192,16 +202,16 @@ namespace Puck_Duck
         /// </summary>
         /// <param name="gameTime"></param>
         /// <param name="map"></param>
-        public void Update(GameTime gameTime, TileMap map, List<Tile> pistonHeads)
+        public void Update(GameTime gameTime, TileMap map, List<Tile> pistons, List<Rectangle> pistonHeads)
         {
             switch (movement)
             {
                 case Direction.Up:
                     position.Y = position.Y - speed;
                     Movement = CheckCollision(map);
-                    if (pistonHeads != null)
+                    if (pistons != null)
                     {
-                        Movement = PistonPush(pistonHeads);
+                        Movement = PistonPush(pistons, pistonHeads);
                     }
                     break;
 
@@ -210,7 +220,7 @@ namespace Puck_Duck
                     Movement = CheckCollision(map);
                     if (pistonHeads != null)
                     {
-                        Movement = PistonPush(pistonHeads);
+                        Movement = PistonPush(pistons, pistonHeads);
                     }
                     break;
 
@@ -219,7 +229,7 @@ namespace Puck_Duck
                     Movement = CheckCollision(map);
                     if (pistonHeads != null)
                     {
-                        Movement = PistonPush(pistonHeads);
+                        Movement = PistonPush(pistons, pistonHeads);
                     }
                     break;
 
@@ -228,11 +238,15 @@ namespace Puck_Duck
                     Movement = CheckCollision(map);
                     if (pistonHeads != null)
                     {
-                        Movement = PistonPush(pistonHeads);
+                        Movement = PistonPush(pistons, pistonHeads);
                     }
                     break;
 
                 case Direction.Stop:
+                    if (pistonHeads != null)
+                    {
+                        Movement = PistonPush(pistons, pistonHeads);
+                    }
                     break;
             }
         }

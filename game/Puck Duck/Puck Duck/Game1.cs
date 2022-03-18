@@ -47,7 +47,8 @@ namespace Puck_Duck
 
         private TileMap tileMap = new TileMap(windowWidth / 32, windowHeight / 32);
         private Piston pistons;
-        List<Tile> pistonsToExtend; // list of extended pistons
+        private List<Tile> pistonsToExtend; // list of extended pistons
+        private List<Rectangle> heads;
 
         public Game1()
         {
@@ -68,11 +69,11 @@ namespace Puck_Duck
             _graphics.ApplyChanges();
 
             //generate the tile map
-            tileMap.GenerateTileMap();
             pistons = new Piston(tileMap);
 
             //initialize pistonsToExtend list
             pistonsToExtend = new List<Tile>();
+            heads = new List<Rectangle>();
 
 
             base.Initialize();
@@ -99,7 +100,7 @@ namespace Puck_Duck
             defaultFont = this.Content.Load<SpriteFont>("Default");
 
             //create duck object
-            duck = new Duck(puck, new Rectangle(0, 0, 20, 20), Direction.Right);
+            duck = new Duck(puck, new Rectangle(0, 0, 20, 20), Direction.Stop);
         }
 
         protected override void Update(GameTime gameTime)
@@ -125,9 +126,23 @@ namespace Puck_Duck
                     break;
 
                 case GameState.Instructions:
-                    if (kbState.IsKeyDown(Keys.G) && prevKbState.IsKeyUp(Keys.G))
+                    if (kbState.IsKeyDown(Keys.D1) && prevKbState.IsKeyUp(Keys.D1))
                     {
+                        tileMap.GenerateTileMap("../../../test.csv");
+
                         //switch to gameplay
+                        heads.Clear();
+                        duck.Spawned = false;
+                        currentState = GameState.Gameplay;
+                    }
+
+                    if (kbState.IsKeyDown(Keys.D2) && prevKbState.IsKeyUp(Keys.D2))
+                    {
+                        tileMap.GenerateTileMap("../../../test1.csv");
+
+                        //switch to gameplay
+                        heads.Clear();
+                        duck.Spawned = false;
                         currentState = GameState.Gameplay;
                     }
 
@@ -146,19 +161,12 @@ namespace Puck_Duck
                         //switch to level clear
                         currentState = GameState.LevelClear;
                     }
-                    
-                    // if no level has been generated, generate it
-                    if (tileMap.Level == null)
-                    {
-                        //make the TileMap the size of the window divided by tile size
-                        tileMap.GenerateTileMap();
-                    }
 
                     //check if pistons are being extended
                     pistonsToExtend = pistons.checkInput();
 
                     //move puck duck
-                    duck.Update(gameTime, tileMap, pistonsToExtend);
+                    duck.Update(gameTime, tileMap, pistonsToExtend, heads);
 
                     break;
 
@@ -220,7 +228,8 @@ namespace Puck_Duck
                     _spriteBatch.DrawString(defaultFont, "Instructions:\n" +
                          "Press M to switch to main menu\n" +
                          "Press C to switch to level clear\n\n" +
-                         "Press G to play", new Vector2(10, 10), Color.Black);
+                         "Press 1 to play level 1\n" +
+                         "Press 2 to play level 2", new Vector2(10, 10), Color.Black);
 
                     break;
 
@@ -305,25 +314,35 @@ namespace Puck_Duck
                                 headPos = pistonsToExtend[i].Position;
                                 headPos.Y = headPos.Y - 32;
                                 _spriteBatch.Draw(pistonHeadUp, headPos, Color.White);
+                                heads.Add(headPos);
                             }
                             if (pistonsToExtend[0].Type == Type.DownPiston)
                             {
                                 headPos = pistonsToExtend[i].Position;
                                 headPos.Y = headPos.Y + 32;
                                 _spriteBatch.Draw(pistonHeadDown, headPos, Color.White);
+                                heads.Add(headPos);
                             }
                             if (pistonsToExtend[0].Type == Type.LeftPiston)
                             {
                                 headPos = pistonsToExtend[i].Position;
                                 headPos.X = headPos.X - 32;
                                 _spriteBatch.Draw(pistonHeadLeft, headPos, Color.White);
+                                heads.Add(headPos);
                             }
                             if (pistonsToExtend[0].Type == Type.RightPiston)
                             {
                                 headPos = pistonsToExtend[i].Position;
                                 headPos.X = headPos.X + 32;
                                 _spriteBatch.Draw(pistonHeadRight, headPos, Color.White);
+                                heads.Add(headPos);
                             }
+                        }
+
+                        // clears the list of piston heads if it doesnt match the number of pistons extended
+                        if (pistonsToExtend.Count != heads.Count)
+                        {
+                            heads.Clear();
                         }
                     }
 

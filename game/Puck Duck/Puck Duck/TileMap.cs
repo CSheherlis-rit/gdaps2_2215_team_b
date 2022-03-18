@@ -11,11 +11,15 @@ namespace Puck_Duck
         private Tile[,] level;
 
         //properties
+
+        /// <summary>
+        /// get-set property for the list of tile objects
+        /// </summary>
         public Tile[,] Level
         {
             get { return level; }
+            set { level = value; }
         }
-
 
         //constructor
         public TileMap(int width, int height)
@@ -24,12 +28,16 @@ namespace Puck_Duck
         }
 
         //methods
-        //creates multi-dimensional array of tiles
-        public Tile[,] GenerateTileMap()
+        /// <summary>
+        /// creates multi-dimensional array of tiles
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns>
+        /// 2D array of tile objects
+        /// </returns>
+        public Tile[,] GenerateTileMap(string filename)
         {
             // variable that may later be changed into a field in order to use different filenames
-            string filename = "../../../test.csv";
-            
             StreamReader input = null;
 
             input = new StreamReader(filename);

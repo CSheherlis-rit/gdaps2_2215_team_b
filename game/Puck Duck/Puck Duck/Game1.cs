@@ -303,6 +303,9 @@ namespace Puck_Duck
                             if (pistonsToExtend[0].Type == Type.DownPiston)
                             {
                                 //draw extended piston head in front of piston
+                                headPos = pistonsToExtend[i].Position;
+                                headPos.Y = headPos.Y + 32;
+                                _spriteBatch.Draw(pistonHead, headPos, Color.White);
                             }
                             if (pistonsToExtend[0].Type == Type.LeftPiston)
                             {

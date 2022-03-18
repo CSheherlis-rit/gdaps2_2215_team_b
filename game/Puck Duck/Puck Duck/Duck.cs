@@ -199,25 +199,37 @@ namespace Puck_Duck
                 case Direction.Up:
                     position.Y = position.Y - speed;
                     Movement = CheckCollision(map);
-                    Movement = PistonPush(pistonHeads);
+                    if(pistonHeads != null)
+                    {
+                        Movement = PistonPush(pistonHeads);
+                    }
                     break;
 
                 case Direction.Down:
                     position.Y = position.Y + speed;
                     Movement = CheckCollision(map);
-                    Movement = PistonPush(pistonHeads);
+                    if (pistonHeads != null)
+                    {
+                        Movement = PistonPush(pistonHeads);
+                    }
                     break;
 
                 case Direction.Right:
                     position.X = position.X + speed;
                     Movement = CheckCollision(map);
-                    Movement = PistonPush(pistonHeads);
+                    if (pistonHeads != null)
+                    {
+                        Movement = PistonPush(pistonHeads);
+                    }
                     break;
 
                 case Direction.Left:
                     position.X = position.X - speed;
                     Movement = CheckCollision(map);
-                    Movement = PistonPush(pistonHeads);
+                    if (pistonHeads != null)
+                    {
+                        Movement = PistonPush(pistonHeads);
+                    }
                     break;
 
                 case Direction.Stop:

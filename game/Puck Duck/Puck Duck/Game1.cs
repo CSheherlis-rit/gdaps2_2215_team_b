@@ -359,6 +359,8 @@ namespace Puck_Duck
                         }
                     }
 
+                    _spriteBatch.DrawString(defaultFont, "Moves: " + duck.Moves, new Vector2(10, 10), Color.Black);
+
                     break;
 
                 case GameState.LevelClear:

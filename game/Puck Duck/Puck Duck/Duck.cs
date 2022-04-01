@@ -33,15 +33,17 @@ namespace Puck_Duck
         private Texture2D duck;
         private Rectangle position;
         private bool spawned = false;
+        private bool isEvil; 
 
         //constructor
         ///set size of duck rectangle??
         ///set speed to width of tiles
-        public Duck(Texture2D duck, Rectangle position, Direction movement)
+        public Duck(Texture2D duck, Rectangle position, Direction movement, bool isEvil)
         {
             this.position = position;
             this.movement = movement;
             this.duck = duck;
+            this.isEvil = isEvil;
         }
 
         //properties
@@ -84,7 +86,14 @@ namespace Puck_Duck
         /// <param name="sb"></param>
         public void Draw(SpriteBatch sb)
         {
-            sb.Draw(duck, position, Color.White);
+            if (isEvil)
+            {
+                sb.Draw(duck, position, Color.Red);
+            }
+            else
+            {
+                sb.Draw(duck, position, Color.White);
+            }
         }
 
         /// <summary>
@@ -142,6 +151,11 @@ namespace Puck_Duck
                         else if (map.Level[j, i].Type == Type.Goal)
                         {
                             position = map.Level[j, i].Position;
+                            /*if the duck is evil, lose instead
+                            if (isEvil)
+                            {
+                                return Direction.Stop;
+                            }*/
                             return Direction.Stop;
                         }
                     }

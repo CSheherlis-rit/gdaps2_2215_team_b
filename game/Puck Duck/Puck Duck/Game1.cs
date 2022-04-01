@@ -34,6 +34,7 @@ namespace Puck_Duck
         private Texture2D pistonHeadRight;
         private Texture2D pistonHeadDown;
         private Duck duck;
+        private Duck evilDuck;
 
         private GameState currentState;
  
@@ -100,7 +101,8 @@ namespace Puck_Duck
             defaultFont = this.Content.Load<SpriteFont>("Default");
 
             //create duck object
-            duck = new Duck(puck, new Rectangle(0, 0, 20, 20), Direction.Stop);
+            duck = new Duck(puck, new Rectangle(0, 0, 20, 20), Direction.Stop, false);
+            evilDuck = new Duck(puck, new Rectangle(0, 0, 20, 20), Direction.Stop, true);
         }
 
         protected override void Update(GameTime gameTime)
@@ -167,6 +169,7 @@ namespace Puck_Duck
 
                     //move puck duck
                     duck.Update(gameTime, tileMap, pistonsToExtend, heads);
+                    evilDuck.Update(gameTime, tileMap, pistonsToExtend, heads);
 
                     break;
 
@@ -239,6 +242,7 @@ namespace Puck_Duck
 
                     //temp variable for duck spawning
                     Rectangle startPos = new Rectangle();
+                    Rectangle evilPos = new Rectangle();
 
                     //draw the tiles for the level
                     for (int i = 0; i < tileMap.Level.GetLength(0); i++)
@@ -290,6 +294,13 @@ namespace Puck_Duck
                                     _spriteBatch.Draw(empty, tilePos, Color.Yellow);
                                     startPos = tilePos;
                                     break;
+
+                                // evilDuck start tile
+                                case Type.EvilStart:
+                                    _spriteBatch.Draw(empty, tilePos, Color.Red);
+                                    evilPos = tilePos;
+                                    break;
+                                    
                             }
 
                             // setting the current tile position as a property for the current tile
@@ -299,7 +310,9 @@ namespace Puck_Duck
 
                     //draw duck at location of start tile
                     duck.Draw(_spriteBatch);
+                    evilDuck.Draw(_spriteBatch);
                     duck.Spawn(startPos);
+                    evilDuck.Spawn(evilPos);
                    
 
                     //draw piston heads

@@ -16,7 +16,8 @@ namespace Puck_Duck
         RightPiston,
         LeftPiston,
         Goal,
-        Start
+        Start,
+        EvilStart
     }
 
     class Tile

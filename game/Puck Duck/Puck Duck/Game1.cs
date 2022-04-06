@@ -11,7 +11,6 @@ namespace Puck_Duck
         MainMenu,
         Instructions,
         Gameplay,
-        LevelClear,
         LevelFail,
         LevelWon
     }
@@ -35,6 +34,7 @@ namespace Puck_Duck
         private Texture2D pistonHeadRight;
         private Texture2D pistonHeadDown;
         private Duck duck;
+        private Duck evilDuck;
 
         private GameState currentState;
  
@@ -42,6 +42,8 @@ namespace Puck_Duck
         private const int windowHeight = 800;
         private Rectangle tilePos;
         private Rectangle headPos;
+        private Rectangle startPos;
+        private Rectangle evilPos;
 
         private KeyboardState kbState;
         private KeyboardState prevKbState;
@@ -76,6 +78,10 @@ namespace Puck_Duck
             pistonsToExtend = new List<Tile>();
             heads = new List<Rectangle>();
 
+            // initialize variables for duck spawning
+            startPos = new Rectangle();
+            evilPos = new Rectangle();
+
 
             base.Initialize();
         }
@@ -102,7 +108,8 @@ namespace Puck_Duck
             defaultFont = this.Content.Load<SpriteFont>("Default");
 
             //create duck object
-            duck = new Duck(puck, new Rectangle(0, 0, 20, 20), Direction.Stop);
+            duck = new Duck(puck, new Rectangle(0, 0, 20, 20), Direction.Stop, false);
+            evilDuck = new Duck(puck, new Rectangle(0, 0, 20, 20), Direction.Stop, true);
         }
 
         protected override void Update(GameTime gameTime)
@@ -161,7 +168,7 @@ namespace Puck_Duck
                     if (kbState.IsKeyDown(Keys.C))
                     {
                         //switch to level clear
-                        currentState = GameState.LevelClear;
+                        currentState = GameState.LevelWon;
                     }
 
                     //check if pistons are being extended
@@ -169,15 +176,16 @@ namespace Puck_Duck
 
                     //move puck duck
                     duck.Update(gameTime, tileMap, pistonsToExtend, heads);
+                    evilDuck.Update(gameTime, tileMap, pistonsToExtend, heads);
 
-                    break;
-
-                case GameState.LevelClear:
-                    
-                    if (kbState.IsKeyDown(Keys.M))
+                    if (duck.CheckCollision(tileMap) == Direction.Stop && duck.Position != startPos)
                     {
-                        //switch to main menu
-                        currentState = GameState.MainMenu;
+                        currentState = GameState.LevelWon;
+                    } 
+
+                    if (evilDuck.CheckCollision(tileMap) == Direction.Stop && evilDuck.Position != evilPos)
+                    {
+                        currentState = GameState.LevelFail;
                     }
 
                     break;
@@ -240,9 +248,6 @@ namespace Puck_Duck
 
                     _spriteBatch.DrawString(defaultFont, "Now in gameplay", new Vector2(10, 10), Color.Black);
 
-                    //temp variable for duck spawning
-                    Rectangle startPos = new Rectangle();
-
                     //draw the tiles for the level
                     for (int i = 0; i < tileMap.Level.GetLength(0); i++)
                     {
@@ -293,6 +298,13 @@ namespace Puck_Duck
                                     _spriteBatch.Draw(empty, tilePos, Color.Yellow);
                                     startPos = tilePos;
                                     break;
+
+                                // evilDuck start tile
+                                case Type.EvilStart:
+                                    _spriteBatch.Draw(empty, tilePos, Color.Red);
+                                    evilPos = tilePos;
+                                    break;
+                                    
                             }
 
                             // setting the current tile position as a property for the current tile
@@ -302,7 +314,9 @@ namespace Puck_Duck
 
                     //draw duck at location of start tile
                     duck.Draw(_spriteBatch);
+                    evilDuck.Draw(_spriteBatch);
                     duck.Spawn(startPos);
+                    evilDuck.Spawn(evilPos);
                    
 
                     //draw piston heads
@@ -349,18 +363,16 @@ namespace Puck_Duck
                         }
                     }
 
+                    _spriteBatch.DrawString(defaultFont, "Moves: " + duck.Moves, new Vector2(10, 10), Color.Black);
+
                     break;
 
-                case GameState.LevelClear:
-                    _spriteBatch.DrawString(defaultFont, "Now in level clear\n" +
+                case GameState.LevelWon:
+                    _spriteBatch.DrawString(defaultFont, "Level complete!\n" +
                         "Press M to switch to main menu", new Vector2(10, 10), Color.Black);
                     break;
                 case GameState.LevelFail:
                     _spriteBatch.DrawString(defaultFont, "You lost :(\n" +
-                        "Press M to return to main menu", new Vector2(10, 10), Color.Black);
-                    break;
-                case GameState.LevelWon:
-                    _spriteBatch.DrawString(defaultFont, "Level complete!\n" +
                         "Press M to return to main menu", new Vector2(10, 10), Color.Black);
                     break;
             }

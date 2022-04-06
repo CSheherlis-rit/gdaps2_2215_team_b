@@ -32,16 +32,19 @@ namespace Puck_Duck
         private int speed = 3;
         private Texture2D duck;
         private Rectangle position;
+        private int moves;
         private bool spawned = false;
+        private bool isEvil;
 
         //constructor
         ///set size of duck rectangle??
         ///set speed to width of tiles
-        public Duck(Texture2D duck, Rectangle position, Direction movement)
+        public Duck(Texture2D duck, Rectangle position, Direction movement, bool isEvil)
         {
             this.position = position;
             this.movement = movement;
             this.duck = duck;
+            this.isEvil = isEvil;
         }
 
         //properties
@@ -61,6 +64,10 @@ namespace Puck_Duck
         {
             get { return spawned; }
             set { spawned = value; }
+        }
+        public int Moves
+        {
+            get { return moves; }
         }
 
         //methods
@@ -84,7 +91,14 @@ namespace Puck_Duck
         /// <param name="sb"></param>
         public void Draw(SpriteBatch sb)
         {
-            sb.Draw(duck, position, Color.White);
+            if (isEvil)
+            {
+                sb.Draw(duck, position, Color.Red);
+            }
+            else
+            {
+                sb.Draw(duck, position, Color.White);
+            }
         }
 
         /// <summary>
@@ -141,6 +155,12 @@ namespace Puck_Duck
                         //stops the puck in the goal
                         else if (map.Level[j, i].Type == Type.Goal)
                         {
+                            position = map.Level[j, i].Position;
+                            /*if the duck is evil, lose instead
+                            if (isEvil)
+                            {
+                                return Direction.Stop;
+                            }*/
                             return Direction.Stop;
                         }
                     }
@@ -174,18 +194,22 @@ namespace Puck_Duck
                         {
                             case Type.UpPiston:
                                 position.X = pistonHeads[i].X;
+                                moves++;
                                 return Direction.Up;
 
                             case Type.DownPiston:
                                 position.X = pistonHeads[i].X;
+                                moves++;
                                 return Direction.Down;
 
                             case Type.LeftPiston:
                                 position.Y = pistonHeads[i].Y;
+                                moves++;
                                 return Direction.Left;
 
                             case Type.RightPiston:
                                 position.Y = pistonHeads[i].Y;
+                                moves++;
                                 return Direction.Right;
                         }
 

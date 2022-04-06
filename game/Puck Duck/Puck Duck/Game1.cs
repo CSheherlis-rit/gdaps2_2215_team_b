@@ -21,6 +21,7 @@ namespace Puck_Duck
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private SpriteFont defaultFont;
+        private Texture2D homeScreen;
         private Texture2D wall;
         private Texture2D empty;
         private Texture2D downPiston;
@@ -84,6 +85,7 @@ namespace Puck_Duck
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            homeScreen = Content.Load<Texture2D>("PuckDuckHome");
             wall = Content.Load<Texture2D>("WallFiller");
             empty = Content.Load<Texture2D>("EmptyFiller");
             downPiston = Content.Load<Texture2D>("PistonDownFiller");
@@ -219,6 +221,7 @@ namespace Puck_Duck
             switch (currentState)
             {
                 case GameState.MainMenu:
+                    _spriteBatch.Draw(homeScreen, new Vector2(0, 0), Color.White);
                     _spriteBatch.DrawString(defaultFont, "Now in main menu\n" +
                         "Press G to see the instructions", new Vector2(10, 10), Color.Black);
 

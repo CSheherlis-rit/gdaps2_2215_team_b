@@ -19,7 +19,8 @@ namespace Puck_Duck
         Down,
         Right,
         Left,
-        Stop
+        Stop,
+        Fail
     }
 
     class Duck
@@ -156,12 +157,14 @@ namespace Puck_Duck
                         else if (map.Level[j, i].Type == Type.Goal)
                         {
                             position = map.Level[j, i].Position;
-                            /*if the duck is evil, lose instead
-                            if (isEvil)
-                            {
-                                return Direction.Stop;
-                            }*/
                             return Direction.Stop;
+                        }
+
+                        // stops the puck on the fail tile
+                        else if (map.Level[j, i].Type == Type.Fail)
+                        {
+                            position = map.Level[j, i].Position;
+                            return Direction.Fail;
                         }
                     }
                 }
@@ -271,6 +274,10 @@ namespace Puck_Duck
                     {
                         Movement = PistonPush(pistons, pistonHeads);
                     }
+                    break;
+
+                case Direction.Fail:
+                    movement = Direction.Stop;
                     break;
             }
         }

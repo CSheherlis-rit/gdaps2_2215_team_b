@@ -174,19 +174,27 @@ namespace Puck_Duck
                     //check if pistons are being extended
                     pistonsToExtend = pistons.checkInput();
 
-                    //move puck duck
-                    duck.Update(gameTime, tileMap, pistonsToExtend, heads);
-                    evilDuck.Update(gameTime, tileMap, pistonsToExtend, heads);
-
+                    // level is won
                     if (duck.CheckCollision(tileMap) == Direction.Stop && duck.Position != startPos)
                     {
                         currentState = GameState.LevelWon;
                     } 
 
+                    // level is failed because of the evil duck
                     if (evilDuck.CheckCollision(tileMap) == Direction.Stop && evilDuck.Position != evilPos)
                     {
                         currentState = GameState.LevelFail;
                     }
+
+                    // level is failed due to landing on a fail tile
+                    if (duck.CheckCollision(tileMap) == Direction.Fail)
+                    {
+                        currentState = GameState.LevelFail;
+                    }
+
+                    //move puck duck
+                    duck.Update(gameTime, tileMap, pistonsToExtend, heads);
+                    evilDuck.Update(gameTime, tileMap, pistonsToExtend, heads);
 
                     break;
 
@@ -273,6 +281,11 @@ namespace Puck_Duck
                                     _spriteBatch.Draw(goal, tilePos, Color.White);
                                     break;
 
+                                // the fail tile
+                                case Type.Fail:
+                                    _spriteBatch.Draw(empty, tilePos, Color.Red);
+                                    break;
+
                                 // upward facing pistons
                                 case Type.UpPiston:
                                     _spriteBatch.Draw(upPiston, tilePos, Color.White);
@@ -295,13 +308,13 @@ namespace Puck_Duck
 
                                 // start tile
                                 case Type.Start:
-                                    _spriteBatch.Draw(empty, tilePos, Color.Yellow);
+                                    _spriteBatch.Draw(empty, tilePos, Color.White);
                                     startPos = tilePos;
                                     break;
 
                                 // evilDuck start tile
                                 case Type.EvilStart:
-                                    _spriteBatch.Draw(empty, tilePos, Color.Red);
+                                    _spriteBatch.Draw(empty, tilePos, Color.White);
                                     evilPos = tilePos;
                                     break;
                                     

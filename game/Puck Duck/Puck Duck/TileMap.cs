@@ -71,6 +71,11 @@ namespace Puck_Duck
                             level[j, i] = new Tile(Type.Goal);
                             break;
 
+                        // "f" creates any fail tiles
+                        case "f":
+                            level[j, i] = new Tile(Type.Fail);
+                            break;
+
                         // "u" creates an upwards facing piston
                         case "u":
                             level[j, i] = new Tile(Type.UpPiston);

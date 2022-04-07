@@ -111,7 +111,7 @@ namespace Puck_Duck
             pistonHeadLeft = Content.Load<Texture2D>("PistonHeadLeft");
             pistonHeadDown = Content.Load<Texture2D>("PistonHeadDown");
             puck = Content.Load<Texture2D>("duckanimation");
-            collectible = Content.Load<Texture2D>("GoalFiller");
+            collectible = Content.Load<Texture2D>("collectible");
 
             defaultFont = this.Content.Load<SpriteFont>("Default");
 

@@ -142,6 +142,7 @@ namespace Puck_Duck
                     duck.Moves = 0; //reset move count
                     collectedCount = 0;
                     collectibles.Clear();
+                    duck.Movement = Direction.Stop;
 
                     if (kbState.IsKeyDown(Keys.G) && prevKbState.IsKeyUp(Keys.G))
                     {
@@ -235,7 +236,7 @@ namespace Puck_Duck
                     break;
 
                 case GameState.LevelFail:
-                    //will be added later - when conditions are not met
+                    duck.Movement = Direction.Stop;
 
                     if (kbState.IsKeyDown(Keys.M))
                     {
@@ -248,9 +249,8 @@ namespace Puck_Duck
 
                     break;
                 case GameState.LevelWon:
-                    //will be added later - when goal is reached
-
                     collectibles.Clear();
+                    duck.Movement = Direction.Stop;
 
                     if (kbState.IsKeyDown(Keys.M))
                     {

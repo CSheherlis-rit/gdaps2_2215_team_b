@@ -37,6 +37,17 @@ namespace Puck_Duck
         private bool spawned = false;
         private bool isEvil;
 
+        //animation
+        int frame;
+        double timeCounter;
+        double fps;
+        double timePerFrame;
+
+        //constants for animation
+        const int FrameCount = 7;
+        const int FrameHeight = 32;
+        const int FrameWidth = 32;
+
         //constructor
         ///set size of duck rectangle??
         ///set speed to width of tiles
@@ -46,6 +57,10 @@ namespace Puck_Duck
             this.movement = movement;
             this.duck = duck;
             this.isEvil = isEvil;
+
+            //initialize animation fields
+            fps = 6.0;
+            timePerFrame = 1.0 / fps;
         }
 
         //properties
@@ -87,18 +102,58 @@ namespace Puck_Duck
         }
 
         /// <summary>
+        /// updates the animation
+        /// </summary>
+        /// <param name="gameTime"></param>
+        public void UpdateAnimation(GameTime gameTime)
+        {
+            timeCounter += gameTime.ElapsedGameTime.TotalSeconds;
+
+            //switch frames depending on the time passed
+            if (timeCounter >= timePerFrame)
+            {
+                frame += 1;
+
+                //check if end of sheet was reached
+                if (frame > FrameCount)
+                {
+                    frame = 0;
+                }
+
+                timeCounter -= timePerFrame;
+            }
+        }
+
+        /// <summary>
         /// Draws the duck
         /// </summary>
         /// <param name="sb"></param>
-        public void Draw(SpriteBatch sb)
+        public void Draw(SpriteEffects flipsprite, SpriteBatch sb)
         {
             if (isEvil)
             {
-                sb.Draw(duck, position, Color.Red);
+                sb.Draw(duck,
+                    new Vector2(position.X, position.Y),
+                    new Rectangle(frame * FrameWidth, 0, FrameWidth, FrameHeight),
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
+                    Vector2.One,
+                    flipsprite,
+                    0);
             }
             else
             {
-                sb.Draw(duck, position, Color.White);
+                sb.Draw(
+                    duck, 
+                    new Vector2(position.X, position.Y), 
+                    new Rectangle(frame * FrameWidth, 0, FrameWidth, FrameHeight), 
+                    Color.White, 
+                    0f, 
+                    Vector2.Zero, 
+                    Vector2.One,
+                    flipsprite,
+                    0);
             }
         }
 

@@ -19,6 +19,7 @@ namespace Puck_Duck
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private SpriteEffects spriteEffects;
         private SpriteFont defaultFont;
         private Texture2D homeScreen;
         private Texture2D wall;
@@ -103,7 +104,7 @@ namespace Puck_Duck
             pistonHeadRight = Content.Load<Texture2D>("PistonHeadRight");
             pistonHeadLeft = Content.Load<Texture2D>("PistonHeadLeft");
             pistonHeadDown = Content.Load<Texture2D>("PistonHeadDown");
-            puck = Content.Load<Texture2D>("duck");
+            puck = Content.Load<Texture2D>("duckanimation");
 
             defaultFont = this.Content.Load<SpriteFont>("Default");
 
@@ -118,6 +119,10 @@ namespace Puck_Duck
                 Exit();
 
             // TODO: Add your update logic here
+
+            //update duck animation
+            duck.UpdateAnimation(gameTime);
+            evilDuck.UpdateAnimation(gameTime);
 
             kbState = Keyboard.GetState();
 
@@ -326,8 +331,8 @@ namespace Puck_Duck
                     }
 
                     //draw duck at location of start tile
-                    duck.Draw(_spriteBatch);
-                    evilDuck.Draw(_spriteBatch);
+                    duck.Draw(spriteEffects, _spriteBatch);
+                    evilDuck.Draw(spriteEffects, _spriteBatch);
                     duck.Spawn(startPos);
                     evilDuck.Spawn(evilPos);
                    

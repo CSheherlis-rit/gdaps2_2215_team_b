@@ -13,12 +13,6 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin 515408__tabby-gus__duck-quack-sound-effect-hd.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:515408__tabby-gus__duck-quack-sound-effect-hd.mp3;quack.mp3
-
 #begin collectible.png
 /importer:TextureImporter
 /processor:TextureProcessor

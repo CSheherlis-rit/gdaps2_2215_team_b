@@ -175,7 +175,17 @@ namespace Puck_Duck
 
                     if (kbState.IsKeyDown(Keys.D3) && prevKbState.IsKeyUp(Keys.D3))
                     {
-                        tileMap.GenerateTileMap("../../../ctest.csv");
+                        tileMap.GenerateTileMap("../../../test2.csv");
+
+                        //switch to gameplay
+                        heads.Clear();
+                        duck.Spawned = false;
+                        currentState = GameState.Gameplay;
+                    }
+
+                    if (kbState.IsKeyDown(Keys.D4) && prevKbState.IsKeyUp(Keys.D4))
+                    {
+                        tileMap.GenerateTileMap("../../../test3.csv");
 
                         //switch to gameplay
                         heads.Clear();

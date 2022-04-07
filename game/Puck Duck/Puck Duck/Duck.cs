@@ -29,6 +29,7 @@ namespace Puck_Duck
 
         //start with the duck not moving
         private Direction movement;
+        private Direction prevMovement = Direction.Stop;
 
         private int speed = 3;
         private Texture2D duck;
@@ -84,6 +85,7 @@ namespace Puck_Duck
         public int Moves
         {
             get { return moves; }
+            set { moves = value; }
         }
 
         //methods
@@ -252,22 +254,18 @@ namespace Puck_Duck
                         {
                             case Type.UpPiston:
                                 position.X = pistonHeads[i].X;
-                                moves++;
                                 return Direction.Up;
 
                             case Type.DownPiston:
                                 position.X = pistonHeads[i].X;
-                                moves++;
                                 return Direction.Down;
 
                             case Type.LeftPiston:
                                 position.Y = pistonHeads[i].Y;
-                                moves++;
                                 return Direction.Left;
 
                             case Type.RightPiston:
                                 position.Y = pistonHeads[i].Y;
-                                moves++;
                                 return Direction.Right;
                         }
 
@@ -293,41 +291,81 @@ namespace Puck_Duck
                     Movement = CheckCollision(map);
                     if (pistons != null)
                     {
+                        prevMovement = Movement;
+
                         Movement = PistonPush(pistons, pistonHeads);
+
+                        //check if the duck has changed direction
+                        if (prevMovement != movement)
+                        {
+                            moves++;
+                        }
                     }
                     break;
 
                 case Direction.Down:
                     position.Y = position.Y + speed;
                     Movement = CheckCollision(map);
-                    if (pistonHeads != null)
+                    if (pistons != null)
                     {
+                        prevMovement = Movement;
+
                         Movement = PistonPush(pistons, pistonHeads);
+
+                        //check if the duck has changed direction
+                        if (prevMovement != movement)
+                        {
+                            moves++;
+                        }
                     }
                     break;
 
                 case Direction.Right:
                     position.X = position.X + speed;
                     Movement = CheckCollision(map);
-                    if (pistonHeads != null)
+                    if (pistons != null)
                     {
+                        prevMovement = Movement;
+
                         Movement = PistonPush(pistons, pistonHeads);
+
+                        //check if the duck has changed direction
+                        if (prevMovement != movement)
+                        {
+                            moves++;
+                        }
                     }
                     break;
 
                 case Direction.Left:
                     position.X = position.X - speed;
                     Movement = CheckCollision(map);
-                    if (pistonHeads != null)
+                    if (pistons != null)
                     {
+                        prevMovement = Movement;
+
                         Movement = PistonPush(pistons, pistonHeads);
+
+                        //check if the duck has changed direction
+                        if (prevMovement != movement)
+                        {
+                            moves++;
+                        }
                     }
                     break;
 
                 case Direction.Stop:
-                    if (pistonHeads != null)
+                    if (pistons != null)
                     {
+                        prevMovement = Movement;
+
                         Movement = PistonPush(pistons, pistonHeads);
+
+                        //check if the duck has changed direction
+                        if (prevMovement != movement)
+                        {
+                            moves++;
+                        }
                     }
                     break;
 

@@ -83,7 +83,6 @@ namespace Puck_Duck
             startPos = new Rectangle();
             evilPos = new Rectangle();
 
-
             base.Initialize();
         }
 
@@ -131,6 +130,9 @@ namespace Puck_Duck
             {
                 
                 case GameState.MainMenu:
+
+                    duck.Moves = 0; //reset move count
+
                     if (kbState.IsKeyDown(Keys.G)&& prevKbState.IsKeyUp(Keys.G))
                     {
                         // switch to instructions
@@ -163,7 +165,7 @@ namespace Puck_Duck
                     break;
 
                 case GameState.Gameplay:
-                    
+
                     if (kbState.IsKeyDown(Keys.M))
                     {
                         //switch to main menu

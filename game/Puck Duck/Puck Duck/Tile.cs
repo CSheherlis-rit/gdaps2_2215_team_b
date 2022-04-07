@@ -6,7 +6,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Puck_Duck
 {
-    // enumeration to say what type of tile the current one is
+    /// <summary>
+    /// Author: Christian Sheherlis
+    /// Purpose: Tracks what type of tile any given tile is
+    /// </summary>
     enum Type
     {
         Empty,
@@ -18,9 +21,14 @@ namespace Puck_Duck
         Goal,
         Start,
         EvilStart,
+        Collectible,
         Fail
     }
 
+    /// <summary>
+    /// Author: John Derstine
+    /// Purpose: Handles individual tiles
+    /// </summary>
     class Tile
     {
         private Type type;

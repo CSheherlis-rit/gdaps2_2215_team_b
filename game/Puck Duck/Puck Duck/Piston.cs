@@ -7,6 +7,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Puck_Duck
 {
+    /// <summary>
+    /// Author: John Derstine
+    /// Purpose: Handles the extension of the pistons
+    /// </summary>
     class Piston
     {
         private TileMap tileMap;

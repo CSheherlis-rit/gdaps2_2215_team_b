@@ -5,6 +5,10 @@ using System.IO;
 
 namespace Puck_Duck
 {
+    /// <summary>
+    /// Author: Christian Sheherlis
+    /// Purpose: Handles the generation of the map of each level as a whole
+    /// </summary>
     class TileMap
     {
         //fields
@@ -71,6 +75,11 @@ namespace Puck_Duck
                             level[j, i] = new Tile(Type.Goal);
                             break;
 
+                        // "c" creates a collectible
+                        case "c":
+                            level[j, i] = new Tile(Type.Collectible);
+                            break;
+
                         // "f" creates any fail tiles
                         case "f":
                             level[j, i] = new Tile(Type.Fail);
@@ -99,6 +108,11 @@ namespace Puck_Duck
                         // "s" creates the start tile
                         case "s":
                             level[j, i] = new Tile(Type.Start);
+                            break;
+
+                        // "b" creates the tile the evil duck will spawn on (the buck)
+                        case "b":
+                            level[j, i] = new Tile(Type.EvilStart);
                             break;
                     }
                 }

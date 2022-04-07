@@ -34,13 +34,16 @@ namespace Puck_Duck
         private Texture2D pistonHeadLeft;
         private Texture2D pistonHeadRight;
         private Texture2D pistonHeadDown;
+        private Texture2D collectible;
         private Duck duck;
         private Duck evilDuck;
+        private List<Collectible> collectibles;
 
         private GameState currentState;
  
         private const int windowWidth = 800;
         private const int windowHeight = 800;
+        private int collectedCount;
         private Rectangle tilePos;
         private Rectangle headPos;
         private Rectangle startPos;
@@ -83,6 +86,10 @@ namespace Puck_Duck
             startPos = new Rectangle();
             evilPos = new Rectangle();
 
+            // initialize list for collectibles
+            collectibles = new List<Collectible>();
+            collectedCount = 0;
+
             base.Initialize();
         }
 
@@ -104,6 +111,7 @@ namespace Puck_Duck
             pistonHeadLeft = Content.Load<Texture2D>("PistonHeadLeft");
             pistonHeadDown = Content.Load<Texture2D>("PistonHeadDown");
             puck = Content.Load<Texture2D>("duckanimation");
+            collectible = Content.Load<Texture2D>("GoalFiller");
 
             defaultFont = this.Content.Load<SpriteFont>("Default");
 
@@ -132,8 +140,10 @@ namespace Puck_Duck
                 case GameState.MainMenu:
 
                     duck.Moves = 0; //reset move count
+                    collectedCount = 0;
+                    collectibles.Clear();
 
-                    if (kbState.IsKeyDown(Keys.G)&& prevKbState.IsKeyUp(Keys.G))
+                    if (kbState.IsKeyDown(Keys.G) && prevKbState.IsKeyUp(Keys.G))
                     {
                         // switch to instructions
                         currentState = GameState.Instructions;
@@ -162,6 +172,16 @@ namespace Puck_Duck
                         currentState = GameState.Gameplay;
                     }
 
+                    if (kbState.IsKeyDown(Keys.D3) && prevKbState.IsKeyUp(Keys.D3))
+                    {
+                        tileMap.GenerateTileMap("../../../ctest.csv");
+
+                        //switch to gameplay
+                        heads.Clear();
+                        duck.Spawned = false;
+                        currentState = GameState.Gameplay;
+                    }
+
                     break;
 
                 case GameState.Gameplay:
@@ -180,6 +200,15 @@ namespace Puck_Duck
 
                     //check if pistons are being extended
                     pistonsToExtend = pistons.checkInput();
+
+                    foreach (Collectible pickup in collectibles)
+                    {
+                        if (pickup.CheckCollision(duck))
+                        {
+                            pickup.IsActive = false;
+                            collectedCount++;
+                        }
+                    }
 
                     // level is won
                     if (duck.CheckCollision(tileMap) == Direction.Stop && duck.Position != startPos)
@@ -210,6 +239,9 @@ namespace Puck_Duck
 
                     if (kbState.IsKeyDown(Keys.M))
                     {
+
+                        collectibles.Clear();
+
                         //switch to main menu
                         currentState = GameState.MainMenu;
                     }
@@ -217,6 +249,8 @@ namespace Puck_Duck
                     break;
                 case GameState.LevelWon:
                     //will be added later - when goal is reached
+
+                    collectibles.Clear();
 
                     if (kbState.IsKeyDown(Keys.M))
                     {
@@ -324,12 +358,28 @@ namespace Puck_Duck
                                     _spriteBatch.Draw(empty, tilePos, Color.White);
                                     evilPos = tilePos;
                                     break;
+
+                                // collectible tile
+                                case Type.Collectible:
+                                    _spriteBatch.Draw(empty, tilePos, Color.White);
+
+                                    if (collectibles.Count < 3)
+                                    {
+                                        collectibles.Add(new Collectible(collectible, tilePos));
+                                    }
+                                    break;
                                     
                             }
 
                             // setting the current tile position as a property for the current tile
                             tileMap.Level[i, j].Position = tilePos;
                         }
+                    }
+
+                    // drawing collectibles at proper tiles
+                    foreach (Collectible pickup in collectibles)
+                    {
+                        pickup.Draw(_spriteBatch);
                     }
 
                     //draw duck at location of start tile
@@ -389,7 +439,8 @@ namespace Puck_Duck
 
                 case GameState.LevelWon:
                     _spriteBatch.DrawString(defaultFont, "Level complete!\n" +
-                        "Press M to switch to main menu", new Vector2(10, 10), Color.Black);
+                        "Collectibles obtained: " + collectedCount +
+                        "\nPress M to switch to main menu", new Vector2(10, 10), Color.Black);
                     break;
                 case GameState.LevelFail:
                     _spriteBatch.DrawString(defaultFont, "You lost :(\n" +

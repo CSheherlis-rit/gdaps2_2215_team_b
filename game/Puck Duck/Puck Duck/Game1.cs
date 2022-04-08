@@ -41,7 +41,7 @@ namespace Puck_Duck
         private List<Collectible> collectibles;
 
         private GameState currentState;
- 
+
         private const int windowWidth = 800;
         private const int windowHeight = 800;
         private int collectedCount;
@@ -122,93 +122,6 @@ namespace Puck_Duck
             duck = new Duck(puck, new Rectangle(0, 0, 20, 20), Direction.Stop, false);
             evilDuck = new Duck(puck, new Rectangle(0, 0, 20, 20), Direction.Stop, true);
 
-            //buttons
-            buttons.Add(new Button(                     //button[0]
-                    _graphics.GraphicsDevice,           // device to create a custom texture
-                    new Rectangle(125, 615, 240, 100),  // where to put the button/size of button
-                    "PLAY",                             // button label
-                    defaultFont,                        // label font
-                    Color.LimeGreen));                  // button color
-
-            buttons[0].OnButtonClick += InstructionsButton;
-
-            buttons.Add(new Button(                     //button[1]
-                    _graphics.GraphicsDevice,           // device to create a custom texture
-                    new Rectangle(430, 615, 240, 100),  // where to put the button/size of button
-                    "LEVELS",                           // button label
-                    defaultFont,                        // label font
-                    Color.Blue));                       // button color
-
-            buttons[1].OnButtonClick += LevelSelectButton;
-
-
-            buttons.Add(new Button(                     //button[2]
-                    _graphics.GraphicsDevice,           // device to create a custom texture
-                    new Rectangle(260,600, 240, 100),  // where to put the button/size of button
-                    "MAIN MENU",                        // button label
-                    defaultFont,                        // label font
-                    Color.Indigo));                     // button color
-
-            buttons[2].OnButtonClick += MainMenuButton;
-
-            //level select buttons
-            buttons.Add(new Button(                     //button[3]
-                    _graphics.GraphicsDevice,           // device to create a custom texture
-                    new Rectangle(280, 100, 200, 60),  // where to put the button/size of button
-                    "LEVEL 1",                        // button label
-                    defaultFont,                        // label font
-                    Color.LimeGreen));                     // button color
-
-
-            buttons.Add(new Button(                     //button[4]
-                    _graphics.GraphicsDevice,           // device to create a custom texture
-                    new Rectangle(280, 200, 200, 60),  // where to put the button/size of button
-                    "LEVEL 2",                        // button label
-                    defaultFont,                        // label font
-                    Color.LimeGreen));                     // button color
-
-
-
-            buttons.Add(new Button(                     //button[5]
-                    _graphics.GraphicsDevice,           // device to create a custom texture
-                    new Rectangle(280, 300, 200, 60),  // where to put the button/size of button
-                    "LEVEL 3",                        // button label
-                    defaultFont,                        // label font
-                    Color.LimeGreen));                     // button color
-
-
-
-            buttons.Add(new Button(                     //button[6]
-                    _graphics.GraphicsDevice,           // device to create a custom texture
-                    new Rectangle(280, 400, 200, 60),   // where to put the button/size of button
-                    "LEVEL 4",                          // button label
-                    defaultFont,                        // label font
-                    Color.LimeGreen));                    // button color
-
-            buttons[3].OnButtonClick += Level1Button;
-            buttons[4].OnButtonClick += Level2Button;
-            buttons[5].OnButtonClick += Level3Button;
-            buttons[6].OnButtonClick += Level4Button;
-
-            //Instructions 
-            buttons.Add(new Button(                     //button[7]
-                    _graphics.GraphicsDevice,           // device to create a custom texture
-                    new Rectangle(260, 200, 240, 100),  // where to put the button/size of button
-                    "PLAY",                              // button label
-                    defaultFont,                        // label font
-                    Color.Blue));                       // button color
-
-            buttons[7].OnButtonClick += PlayButton;
-
-            buttons.Add(new Button(                     //button[8]
-                    _graphics.GraphicsDevice,           // device to create a custom texture
-                    new Rectangle(260, 400, 240, 100),  // where to put the button/size of button
-                    "MAIN MENU",                        // button label
-                    defaultFont,                        // label font
-                    Color.Fuchsia));                    // button color
-
-            buttons[8].OnButtonClick += MainMenuButton;
-
         }
 
         protected override void Update(GameTime gameTime)
@@ -225,9 +138,9 @@ namespace Puck_Duck
             kbState = Keyboard.GetState();
 
             // switching game state
-            switch(currentState)
+            switch (currentState)
             {
-                
+
                 case GameState.MainMenu:
 
                     duck.Moves = 0; //reset move count
@@ -235,11 +148,50 @@ namespace Puck_Duck
                     collectibles.Clear();
                     duck.Movement = Direction.Stop;
 
+                    if (buttons.Count < 2)
+                    {
+                        /*buttons.Add(new Button(                     //button[0]
+                                _graphics.GraphicsDevice,           // device to create a custom texture
+                                new Rectangle(125, 615, 240, 100),  // where to put the button/size of button
+                                "PLAY",                             // button label
+                                defaultFont,                        // label font
+                                Color.LimeGreen));                  // button color
+
+                        buttons[0].OnButtonClick += InstructionsButton;*/
+
+                        buttons.Add(new Button(                     //button[1]
+                                _graphics.GraphicsDevice,           // device to create a custom texture
+                                new Rectangle(430, 615, 240, 100),  // where to put the button/size of button
+                                "LEVELS",                           // button label
+                                defaultFont,                        // label font
+                                Color.Blue));                       // button color
+
+                        buttons[0].OnButtonClick += LevelSelectButton;
+                    }
 
                     break;
 
                 case GameState.Instructions:
-                    
+                    if (buttons.Count < 3)
+                    {
+                        buttons.Add(new Button(                     //button[7]
+                                _graphics.GraphicsDevice,           // device to create a custom texture
+                                new Rectangle(260, 200, 240, 100),  // where to put the button/size of button
+                                "PLAY",                              // button label
+                                defaultFont,                        // label font
+                                Color.Blue));                       // button color
+
+                        buttons[0].OnButtonClick += PlayButton;
+
+                        buttons.Add(new Button(                     //button[8]
+                                _graphics.GraphicsDevice,           // device to create a custom texture
+                                new Rectangle(260, 400, 240, 100),  // where to put the button/size of button
+                                "MAIN MENU",                        // button label
+                                defaultFont,                        // label font
+                                Color.Fuchsia));                    // button color
+
+                        buttons[1].OnButtonClick += MainMenuButton;
+                    }
                     break;
 
                 case GameState.Gameplay:
@@ -249,8 +201,8 @@ namespace Puck_Duck
                         //switch to main menu
                         currentState = GameState.MainMenu;
                     }
-                    
-                    if (kbState.IsKeyUp(Keys.C)&&prevKbState.IsKeyDown(Keys.C))
+
+                    if (kbState.IsKeyUp(Keys.C) && prevKbState.IsKeyDown(Keys.C))
                     {
                         //switch to level clear
                         currentState = GameState.LevelWon;
@@ -272,7 +224,7 @@ namespace Puck_Duck
                     if (duck.CheckCollision(tileMap) == Direction.Stop && duck.Position != startPos)
                     {
                         currentState = GameState.LevelWon;
-                    } 
+                    }
 
                     // level is failed because of the evil duck
                     if (evilDuck.CheckCollision(tileMap) == Direction.Stop && evilDuck.Position != evilPos)
@@ -299,34 +251,104 @@ namespace Puck_Duck
                     {
 
                         collectibles.Clear();
+                        buttons.Clear();
 
                         //switch to main menu
                         currentState = GameState.MainMenu;
                     }
+
+                    buttons.Add(new Button(                     // button[2]
+                            _graphics.GraphicsDevice,           // device to create a custom texture
+                            new Rectangle(260, 600, 240, 100),  // where to put the button/size of button
+                            "MAIN MENU",                        // button label
+                            defaultFont,                        // label font
+                            Color.Indigo));                     // button color
+
+                    buttons[0].OnButtonClick += MainMenuButton;
 
                     break;
                 case GameState.LevelWon:
                     collectibles.Clear();
                     duck.Movement = Direction.Stop;
 
-                    if (kbState.IsKeyUp(Keys.M)&&prevKbState.IsKeyDown(Keys.M))
+                    if (kbState.IsKeyUp(Keys.M) && prevKbState.IsKeyDown(Keys.M))
                     {
+                        buttons.Clear();
                         //switch to main menu
                         currentState = GameState.MainMenu;
                     }
 
+                    buttons.Add(new Button(                     // button[2]
+                            _graphics.GraphicsDevice,           // device to create a custom texture
+                            new Rectangle(260, 600, 240, 100),  // where to put the button/size of button
+                            "MAIN MENU",                        // button label
+                            defaultFont,                        // label font
+                            Color.Indigo));                     // button color
+
+                    buttons[0].OnButtonClick += MainMenuButton;
+
                     break;
 
                 case GameState.LevelSelect:
-                    
+                    if (buttons.Count < 5)
+                    {
+                        buttons.Add(new Button(                     //button[3]
+                                _graphics.GraphicsDevice,           // device to create a custom texture
+                                new Rectangle(280, 100, 200, 60),  // where to put the button/size of button
+                                "LEVEL 1",                        // button label
+                                defaultFont,                        // label font
+                                Color.LimeGreen));                     // button color
+
+                        buttons.Add(new Button(                     //button[4]
+                                _graphics.GraphicsDevice,           // device to create a custom texture
+                                new Rectangle(280, 200, 200, 60),  // where to put the button/size of button
+                                "LEVEL 2",                        // button label
+                                defaultFont,                        // label font
+                                Color.LimeGreen));                     // button color
+
+
+
+                        buttons.Add(new Button(                     //button[5]
+                                _graphics.GraphicsDevice,           // device to create a custom texture
+                                new Rectangle(280, 300, 200, 60),  // where to put the button/size of button
+                                "LEVEL 3",                        // button label
+                                defaultFont,                        // label font
+                                Color.LimeGreen));                     // button color
+
+
+
+                        buttons.Add(new Button(                     //button[6]
+                                _graphics.GraphicsDevice,           // device to create a custom texture
+                                new Rectangle(280, 400, 200, 60),   // where to put the button/size of button
+                                "LEVEL 4",                          // button label
+                                defaultFont,                        // label font
+                                Color.LimeGreen));                    // button color
+
+                        buttons[0].OnButtonClick += Level1Button;
+
+                        buttons[1].OnButtonClick += Level2Button;
+
+                        buttons[2].OnButtonClick += Level3Button;
+
+                        buttons[3].OnButtonClick += Level4Button;
+
+                        buttons.Add(new Button(                     //button[2]
+                                _graphics.GraphicsDevice,           // device to create a custom texture
+                                new Rectangle(260, 600, 240, 100),  // where to put the button/size of button
+                                "MAIN MENU",                        // button label
+                                defaultFont,                        // label font
+                                Color.Indigo));                     // button color
+
+                        buttons[4].OnButtonClick += MainMenuButton;
+                    }
 
                     break;
             }
 
             //update buttons
-            foreach (Button b in buttons)
+            for (int i = 0; i < buttons.Count; i++)
             {
-                b.Update();
+                buttons[i].Update();
             }
 
             // update prevKbState
@@ -346,12 +368,14 @@ namespace Puck_Duck
             switch (currentState)
             {
                 case GameState.MainMenu:
-
+                    //draw buttons
+                    foreach(Button button in buttons)
+                    {
+                        button.Draw(_spriteBatch);
+                    }
                     //draw homescreen
                     _spriteBatch.Draw(homeScreen, new Vector2(0, 0), Color.White);
-                    //draw buttons
-                    buttons[0].Draw(_spriteBatch);
-                    buttons[1].Draw(_spriteBatch);
+
 
                     break;
 
@@ -362,8 +386,10 @@ namespace Puck_Duck
                          new Vector2(265, 80), Color.Black);
 
                     //draw buttons
-                    buttons[7].Draw(_spriteBatch);
-                    buttons[8].Draw(_spriteBatch);
+                    foreach (Button button in buttons)
+                    {
+                        button.Draw(_spriteBatch);
+                    }
 
                     break;
 
@@ -374,7 +400,7 @@ namespace Puck_Duck
                     {
                         for (int j = 0; j < tileMap.Level.GetLength(1); j++)
                         {
-                            tilePos = new Rectangle( i * 32, j * 32, wall.Width, wall.Height);
+                            tilePos = new Rectangle(i * 32, j * 32, wall.Width, wall.Height);
 
                             // drawing different tiles for the current type of tile
                             switch (tileMap.Level[i, j].Type)
@@ -440,7 +466,7 @@ namespace Puck_Duck
                                         collectibles.Add(new Collectible(collectible, tilePos));
                                     }
                                     break;
-                                    
+
                             }
 
                             // setting the current tile position as a property for the current tile
@@ -459,7 +485,7 @@ namespace Puck_Duck
                     evilDuck.Draw(spriteEffects, _spriteBatch);
                     duck.Spawn(startPos);
                     evilDuck.Spawn(evilPos);
-                   
+
 
                     //draw piston heads
                     if (pistonsToExtend != null)
@@ -515,7 +541,10 @@ namespace Puck_Duck
                         , new Vector2(10, 10), Color.Black);
 
                     //draw main menu button
-                    buttons[8].Draw(_spriteBatch);
+                    foreach (Button button in buttons)
+                    {
+                        button.Draw(_spriteBatch);
+                    }
                     break;
 
                 case GameState.LevelFail:
@@ -523,16 +552,18 @@ namespace Puck_Duck
                         new Vector2(10, 10), Color.Black);
 
                     //draw main menu button
-                    buttons[8].Draw(_spriteBatch);
+                    foreach (Button button in buttons)
+                    {
+                        button.Draw(_spriteBatch);
+                    }
                     break;
 
                 case GameState.LevelSelect:
                     //draw buttons
-                    buttons[3].Draw(_spriteBatch);
-                    buttons[4].Draw(_spriteBatch);
-                    buttons[5].Draw(_spriteBatch);
-                    buttons[6].Draw(_spriteBatch);
-                    buttons[2].Draw(_spriteBatch);
+                    foreach (Button button in buttons)
+                    {
+                        button.Draw(_spriteBatch);
+                    }
                     break;
             }
 
@@ -543,23 +574,28 @@ namespace Puck_Duck
         //button methods
         protected void InstructionsButton()
         {
+            buttons.Clear();
             currentState = GameState.Instructions;
         }
         protected void PlayButton()
         {
+            buttons.Clear();
             currentState = GameState.Gameplay;
         }
         protected void LevelSelectButton()
         {
+            buttons.Clear();
             currentState = GameState.LevelSelect;
         }
         protected void MainMenuButton()
         {
+            buttons.Clear();
             currentState = GameState.MainMenu;
         }
         protected void Level1Button()
         {
-            tileMap.GenerateTileMap("../../../test.csv");
+            buttons.Clear();
+            tileMap.GenerateTileMap("../../../lvl 1.csv");
 
             //switch to gameplay
             heads.Clear();
@@ -568,7 +604,8 @@ namespace Puck_Duck
         }
         protected void Level2Button()
         {
-            tileMap.GenerateTileMap("../../../test1.csv");
+            buttons.Clear();
+            tileMap.GenerateTileMap("../../../lvl 3.csv");
 
             //switch to gameplay
             heads.Clear();
@@ -577,7 +614,8 @@ namespace Puck_Duck
         }
         protected void Level3Button()
         {
-            tileMap.GenerateTileMap("../../../test2.csv");
+            buttons.Clear();
+            tileMap.GenerateTileMap("../../../lvl 5.csv");
 
             //switch to gameplay
             heads.Clear();
@@ -586,7 +624,8 @@ namespace Puck_Duck
         }
         protected void Level4Button()
         {
-            tileMap.GenerateTileMap("../../../test3.csv");
+            buttons.Clear();
+            tileMap.GenerateTileMap("../../../lvl 6.csv");
 
             //switch to gameplay
             heads.Clear();

@@ -12,7 +12,8 @@ namespace Puck_Duck
         Instructions,
         Gameplay,
         LevelFail,
-        LevelWon
+        LevelWon,
+        LevelSelect
     }
 
     public class Game1 : Game
@@ -56,6 +57,8 @@ namespace Puck_Duck
         private Piston pistons;
         private List<Tile> pistonsToExtend; // list of extended pistons
         private List<Rectangle> heads;
+
+        private List<Button> buttons = new List<Button>();
 
         public Game1()
         {
@@ -118,6 +121,94 @@ namespace Puck_Duck
             //create duck object
             duck = new Duck(puck, new Rectangle(0, 0, 20, 20), Direction.Stop, false);
             evilDuck = new Duck(puck, new Rectangle(0, 0, 20, 20), Direction.Stop, true);
+
+            //buttons
+            buttons.Add(new Button(                     //button[0]
+                    _graphics.GraphicsDevice,           // device to create a custom texture
+                    new Rectangle(125, 615, 240, 100),  // where to put the button/size of button
+                    "PLAY",                             // button label
+                    defaultFont,                        // label font
+                    Color.LimeGreen));                  // button color
+
+            buttons[0].OnButtonClick += InstructionsButton;
+
+            buttons.Add(new Button(                     //button[1]
+                    _graphics.GraphicsDevice,           // device to create a custom texture
+                    new Rectangle(430, 615, 240, 100),  // where to put the button/size of button
+                    "LEVELS",                           // button label
+                    defaultFont,                        // label font
+                    Color.Blue));                       // button color
+
+            buttons[1].OnButtonClick += LevelSelectButton;
+
+
+            buttons.Add(new Button(                     //button[2]
+                    _graphics.GraphicsDevice,           // device to create a custom texture
+                    new Rectangle(260,600, 240, 100),  // where to put the button/size of button
+                    "MAIN MENU",                        // button label
+                    defaultFont,                        // label font
+                    Color.Indigo));                     // button color
+
+            buttons[2].OnButtonClick += MainMenuButton;
+
+            //level select buttons
+            buttons.Add(new Button(                     //button[3]
+                    _graphics.GraphicsDevice,           // device to create a custom texture
+                    new Rectangle(280, 100, 200, 60),  // where to put the button/size of button
+                    "LEVEL 1",                        // button label
+                    defaultFont,                        // label font
+                    Color.LimeGreen));                     // button color
+
+
+            buttons.Add(new Button(                     //button[4]
+                    _graphics.GraphicsDevice,           // device to create a custom texture
+                    new Rectangle(280, 200, 200, 60),  // where to put the button/size of button
+                    "LEVEL 2",                        // button label
+                    defaultFont,                        // label font
+                    Color.LimeGreen));                     // button color
+
+
+
+            buttons.Add(new Button(                     //button[5]
+                    _graphics.GraphicsDevice,           // device to create a custom texture
+                    new Rectangle(280, 300, 200, 60),  // where to put the button/size of button
+                    "LEVEL 3",                        // button label
+                    defaultFont,                        // label font
+                    Color.LimeGreen));                     // button color
+
+
+
+            buttons.Add(new Button(                     //button[6]
+                    _graphics.GraphicsDevice,           // device to create a custom texture
+                    new Rectangle(280, 400, 200, 60),   // where to put the button/size of button
+                    "LEVEL 4",                          // button label
+                    defaultFont,                        // label font
+                    Color.LimeGreen));                    // button color
+
+            buttons[3].OnButtonClick += Level1Button;
+            buttons[4].OnButtonClick += Level2Button;
+            buttons[5].OnButtonClick += Level3Button;
+            buttons[6].OnButtonClick += Level4Button;
+
+            //Instructions 
+            buttons.Add(new Button(                     //button[7]
+                    _graphics.GraphicsDevice,           // device to create a custom texture
+                    new Rectangle(260, 200, 240, 100),  // where to put the button/size of button
+                    "PLAY",                              // button label
+                    defaultFont,                        // label font
+                    Color.Blue));                       // button color
+
+            buttons[7].OnButtonClick += PlayButton;
+
+            buttons.Add(new Button(                     //button[8]
+                    _graphics.GraphicsDevice,           // device to create a custom texture
+                    new Rectangle(260, 400, 240, 100),  // where to put the button/size of button
+                    "MAIN MENU",                        // button label
+                    defaultFont,                        // label font
+                    Color.Fuchsia));                    // button color
+
+            buttons[8].OnButtonClick += MainMenuButton;
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -144,66 +235,22 @@ namespace Puck_Duck
                     collectibles.Clear();
                     duck.Movement = Direction.Stop;
 
-                    if (kbState.IsKeyDown(Keys.G) && prevKbState.IsKeyUp(Keys.G))
-                    {
-                        // switch to instructions
-                        currentState = GameState.Instructions;
-                    }
 
                     break;
 
                 case GameState.Instructions:
-                    if (kbState.IsKeyDown(Keys.D1) && prevKbState.IsKeyUp(Keys.D1))
-                    {
-                        tileMap.GenerateTileMap("../../../test.csv");
-
-                        //switch to gameplay
-                        heads.Clear();
-                        duck.Spawned = false;
-                        currentState = GameState.Gameplay;
-                    }
-
-                    if (kbState.IsKeyDown(Keys.D2) && prevKbState.IsKeyUp(Keys.D2))
-                    {
-                        tileMap.GenerateTileMap("../../../test1.csv");
-
-                        //switch to gameplay
-                        heads.Clear();
-                        duck.Spawned = false;
-                        currentState = GameState.Gameplay;
-                    }
-
-                    if (kbState.IsKeyDown(Keys.D3) && prevKbState.IsKeyUp(Keys.D3))
-                    {
-                        tileMap.GenerateTileMap("../../../test2.csv");
-
-                        //switch to gameplay
-                        heads.Clear();
-                        duck.Spawned = false;
-                        currentState = GameState.Gameplay;
-                    }
-
-                    if (kbState.IsKeyDown(Keys.D4) && prevKbState.IsKeyUp(Keys.D4))
-                    {
-                        tileMap.GenerateTileMap("../../../test3.csv");
-
-                        //switch to gameplay
-                        heads.Clear();
-                        duck.Spawned = false;
-                        currentState = GameState.Gameplay;
-                    }
-
+                    
                     break;
 
                 case GameState.Gameplay:
 
-                    if (kbState.IsKeyDown(Keys.M))
+                    if (kbState.IsKeyUp(Keys.M) && prevKbState.IsKeyDown(Keys.M))
                     {
                         //switch to main menu
                         currentState = GameState.MainMenu;
                     }
                     
-                    if (kbState.IsKeyDown(Keys.C))
+                    if (kbState.IsKeyUp(Keys.C)&&prevKbState.IsKeyDown(Keys.C))
                     {
                         //switch to level clear
                         currentState = GameState.LevelWon;
@@ -248,7 +295,7 @@ namespace Puck_Duck
                 case GameState.LevelFail:
                     duck.Movement = Direction.Stop;
 
-                    if (kbState.IsKeyDown(Keys.M))
+                    if (kbState.IsKeyUp(Keys.M) && prevKbState.IsKeyDown(Keys.M))
                     {
 
                         collectibles.Clear();
@@ -262,13 +309,24 @@ namespace Puck_Duck
                     collectibles.Clear();
                     duck.Movement = Direction.Stop;
 
-                    if (kbState.IsKeyDown(Keys.M))
+                    if (kbState.IsKeyUp(Keys.M)&&prevKbState.IsKeyDown(Keys.M))
                     {
                         //switch to main menu
                         currentState = GameState.MainMenu;
                     }
 
                     break;
+
+                case GameState.LevelSelect:
+                    
+
+                    break;
+            }
+
+            //update buttons
+            foreach (Button b in buttons)
+            {
+                b.Update();
             }
 
             // update prevKbState
@@ -288,24 +346,28 @@ namespace Puck_Duck
             switch (currentState)
             {
                 case GameState.MainMenu:
+
+                    //draw homescreen
                     _spriteBatch.Draw(homeScreen, new Vector2(0, 0), Color.White);
-                    _spriteBatch.DrawString(defaultFont, "Now in main menu\n" +
-                        "Press G to see the instructions", new Vector2(10, 10), Color.Black);
+                    //draw buttons
+                    buttons[0].Draw(_spriteBatch);
+                    buttons[1].Draw(_spriteBatch);
 
                     break;
 
                 case GameState.Instructions:
-                    _spriteBatch.DrawString(defaultFont, "Instructions:\n" +
+                    _spriteBatch.DrawString(defaultFont, "How to play:\n" +
                          "Press M to switch to main menu\n" +
-                         "Press C to switch to level clear\n\n" +
-                         "Press 1 to play level 1\n" +
-                         "Press 2 to play level 2", new Vector2(10, 10), Color.Black);
+                         "Press C to switch to level clear\n\n",
+                         new Vector2(265, 80), Color.Black);
+
+                    //draw buttons
+                    buttons[7].Draw(_spriteBatch);
+                    buttons[8].Draw(_spriteBatch);
 
                     break;
 
                 case GameState.Gameplay:
-
-                    _spriteBatch.DrawString(defaultFont, "Now in gameplay", new Vector2(10, 10), Color.Black);
 
                     //draw the tiles for the level
                     for (int i = 0; i < tileMap.Level.GetLength(0); i++)
@@ -449,18 +511,87 @@ namespace Puck_Duck
 
                 case GameState.LevelWon:
                     _spriteBatch.DrawString(defaultFont, "Level complete!\n" +
-                        "Collectibles obtained: " + collectedCount +
-                        "\nPress M to switch to main menu", new Vector2(10, 10), Color.Black);
+                        "Collectibles obtained: " + collectedCount
+                        , new Vector2(10, 10), Color.Black);
+
+                    //draw main menu button
+                    buttons[8].Draw(_spriteBatch);
                     break;
+
                 case GameState.LevelFail:
-                    _spriteBatch.DrawString(defaultFont, "You lost :(\n" +
-                        "Press M to return to main menu", new Vector2(10, 10), Color.Black);
+                    _spriteBatch.DrawString(defaultFont, "You lost :(\n",
+                        new Vector2(10, 10), Color.Black);
+
+                    //draw main menu button
+                    buttons[8].Draw(_spriteBatch);
+                    break;
+
+                case GameState.LevelSelect:
+                    //draw buttons
+                    buttons[3].Draw(_spriteBatch);
+                    buttons[4].Draw(_spriteBatch);
+                    buttons[5].Draw(_spriteBatch);
+                    buttons[6].Draw(_spriteBatch);
+                    buttons[2].Draw(_spriteBatch);
                     break;
             }
 
             _spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+        //button methods
+        protected void InstructionsButton()
+        {
+            currentState = GameState.Instructions;
+        }
+        protected void PlayButton()
+        {
+            currentState = GameState.Gameplay;
+        }
+        protected void LevelSelectButton()
+        {
+            currentState = GameState.LevelSelect;
+        }
+        protected void MainMenuButton()
+        {
+            currentState = GameState.MainMenu;
+        }
+        protected void Level1Button()
+        {
+            tileMap.GenerateTileMap("../../../test.csv");
+
+            //switch to gameplay
+            heads.Clear();
+            duck.Spawned = false;
+            currentState = GameState.Gameplay;
+        }
+        protected void Level2Button()
+        {
+            tileMap.GenerateTileMap("../../../test1.csv");
+
+            //switch to gameplay
+            heads.Clear();
+            duck.Spawned = false;
+            currentState = GameState.Gameplay;
+        }
+        protected void Level3Button()
+        {
+            tileMap.GenerateTileMap("../../../test2.csv");
+
+            //switch to gameplay
+            heads.Clear();
+            duck.Spawned = false;
+            currentState = GameState.Gameplay;
+        }
+        protected void Level4Button()
+        {
+            tileMap.GenerateTileMap("../../../test3.csv");
+
+            //switch to gameplay
+            heads.Clear();
+            duck.Spawned = false;
+            currentState = GameState.Gameplay;
         }
     }
 }

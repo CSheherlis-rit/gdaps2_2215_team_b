@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace PE_MG_Buttons
+namespace Puck_Duck
 {
     /// <summary>
     /// If the client wants to be notified when a button is clicked, it must
@@ -33,12 +33,7 @@ namespace PE_MG_Buttons
         /// 
         /// The delegate will be called with a reference to the clicked button.
         /// </summary>
-        public event OnButtonClickDelegate OnLeftButtonClick;
-
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        // Add your new event here!
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        public event OnButtonClickDelegate OnRightButtonClick;
+        public event OnButtonClickDelegate OnButtonClick;
 
         /// <summary>
         /// Create a new custom button
@@ -62,8 +57,8 @@ namespace PE_MG_Buttons
                 (position.Y + position.Height / 2) - textSize.Y / 2
             );
 
-            // Invert the button color for the text color (because why not)
-            textColor = new Color(255 - color.R, 255 - color.G, 255 - color.B);
+            // button text color
+            textColor = Color.White;
 
             // Make a custom 2d texture for the button itself
             buttonImg = new Texture2D(device, position.Width, position.Height, false, SurfaceFormat.Color);
@@ -84,24 +79,10 @@ namespace PE_MG_Buttons
                 prevMState.LeftButton == ButtonState.Pressed &&
                 position.Contains(mState.Position))
             {
-                if (OnLeftButtonClick != null)
+                if (OnButtonClick != null)
                 {
                     // Call ALL methods attached to this button
-                    OnLeftButtonClick();
-                }
-            }
-
-            // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            // Add your new click detection here!
-            // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            if (mState.RightButton == ButtonState.Released &&
-                prevMState.RightButton == ButtonState.Pressed &&
-                position.Contains(mState.Position))
-            {
-                if (OnRightButtonClick != null)
-                {
-                    // Call ALL methods attached to this button
-                    OnRightButtonClick();
+                    OnButtonClick();
                 }
             }
 

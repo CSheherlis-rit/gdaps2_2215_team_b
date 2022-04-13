@@ -40,6 +40,12 @@ namespace Puck_Duck
         private Texture2D pistonHeadRight;
         private Texture2D pistonHeadDown;
         private Texture2D collectible;
+        private Texture2D tableTexture;
+        private Texture2D levelSelectScreen;
+        private Texture2D clear0Star;
+        private Texture2D clear1Star;
+        private Texture2D clear2Star;
+        private Texture2D clear3Star;
         private Duck duck;
         private Duck evilDuck;
         private List<Collectible> collectibles;
@@ -123,6 +129,12 @@ namespace Puck_Duck
             pistonHeadDown = Content.Load<Texture2D>("PistonHeadDown");
             puck = Content.Load<Texture2D>("duckanimation");
             collectible = Content.Load<Texture2D>("collectible");
+            tableTexture = Content.Load<Texture2D>("AirHockeyTexture");
+            levelSelectScreen = Content.Load<Texture2D>("LevelSelectBG");
+            clear0Star = Content.Load<Texture2D>("clear0Star");
+            clear1Star = Content.Load<Texture2D>("clear1Star");
+            clear2Star = Content.Load<Texture2D>("clear2Star");
+            clear3Star = Content.Load<Texture2D>("clear3Star");
 
             defaultFont = this.Content.Load<SpriteFont>("Default");
 
@@ -367,7 +379,7 @@ namespace Puck_Duck
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.White);
+            //GraphicsDevice.Clear(Color.White);
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
@@ -403,6 +415,9 @@ namespace Puck_Duck
 
                 case GameState.Gameplay:
 
+                    //draw table texture
+                    _spriteBatch.Draw(tableTexture, new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
+
                     //draw the tiles for the level
                     for (int i = 0; i < tileMap.Level.GetLength(0); i++)
                     {
@@ -413,10 +428,6 @@ namespace Puck_Duck
                             // drawing different tiles for the current type of tile
                             switch (tileMap.Level[i, j].Type)
                             {
-                                // empty tiles
-                                case Type.Empty:
-                                    _spriteBatch.Draw(empty, tilePos, Color.White);
-                                    break;
 
                                 // walls
                                 case Type.Wall:
@@ -484,19 +495,16 @@ namespace Puck_Duck
 
                                 // start tile
                                 case Type.Start:
-                                    _spriteBatch.Draw(empty, tilePos, Color.White);
                                     startPos = tilePos;
                                     break;
 
                                 // evilDuck start tile
                                 case Type.EvilStart:
-                                    _spriteBatch.Draw(empty, tilePos, Color.White);
                                     evilPos = tilePos;
                                     break;
 
                                 // collectible tile
                                 case Type.Collectible:
-                                    _spriteBatch.Draw(empty, tilePos, Color.White);
 
                                     if (collectibles.Count < 3)
                                     {
@@ -577,9 +585,30 @@ namespace Puck_Duck
                     break;
 
                 case GameState.LevelWon:
-                    _spriteBatch.DrawString(defaultFont, "Level complete!\n" +
-                        "Collectibles obtained: " + collectedCount
-                        , new Vector2(10, 10), Color.Black);
+
+                    //draw the level clear screen depending on how many collectibles were collected
+                    switch (collectedCount)
+                    {
+                        case 0:
+                            _spriteBatch.Draw(clear0Star, 
+                                new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
+                            break;
+
+                        case 1:
+                            _spriteBatch.Draw(clear1Star, 
+                                new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
+                            break;
+
+                        case 2:
+                            _spriteBatch.Draw(clear2Star, 
+                                new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
+                            break;
+
+                        case 3:
+                            _spriteBatch.Draw(clear3Star, 
+                                new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
+                            break;
+                    }
 
                     //draw main menu button
                     foreach (Button button in buttons)
@@ -600,6 +629,10 @@ namespace Puck_Duck
                     break;
 
                 case GameState.LevelSelect:
+
+                    //draw background
+                    _spriteBatch.Draw(levelSelectScreen, new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
+
                     //draw buttons
                     foreach (Button button in buttons)
                     {

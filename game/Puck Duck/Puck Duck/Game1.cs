@@ -29,6 +29,10 @@ namespace Puck_Duck
         private Texture2D upPiston;
         private Texture2D leftPiston;
         private Texture2D rightPiston;
+        private Texture2D downPistonOpen;
+        private Texture2D upPistonOpen;
+        private Texture2D leftPistonOpen;
+        private Texture2D rightPistonOpen;
         private Texture2D goal;
         private Texture2D pistonHeadUp;
         private Texture2D puck;
@@ -104,12 +108,16 @@ namespace Puck_Duck
             homeScreen = Content.Load<Texture2D>("PuckDuckHome");
             wall = Content.Load<Texture2D>("WallFiller");
             empty = Content.Load<Texture2D>("EmptyFiller");
-            downPiston = Content.Load<Texture2D>("PistonDownFiller");
-            upPiston = Content.Load<Texture2D>("PistonUpFiller");
-            leftPiston = Content.Load<Texture2D>("PistonLeftFiller");
-            rightPiston = Content.Load<Texture2D>("PistonRightFiller");
+            downPiston = Content.Load<Texture2D>("PistonDownClosed");
+            upPiston = Content.Load<Texture2D>("PistonUpClosed");
+            leftPiston = Content.Load<Texture2D>("PistonLeftClosed");
+            rightPiston = Content.Load<Texture2D>("PistonRightClosed");
+            downPistonOpen = Content.Load<Texture2D>("PistonDownOpen");
+            upPistonOpen = Content.Load<Texture2D>("PistonUpOpen");
+            leftPistonOpen = Content.Load<Texture2D>("PistonLeftOpen");
+            rightPistonOpen = Content.Load<Texture2D>("PistonRightOpen");
             goal = Content.Load<Texture2D>("GoalFiller");
-            pistonHeadUp = Content.Load<Texture2D>("PistonHead-export");
+            pistonHeadUp = Content.Load<Texture2D>("PistonHeadUp");
             pistonHeadRight = Content.Load<Texture2D>("PistonHeadRight");
             pistonHeadLeft = Content.Load<Texture2D>("PistonHeadLeft");
             pistonHeadDown = Content.Load<Texture2D>("PistonHeadDown");
@@ -359,7 +367,7 @@ namespace Puck_Duck
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.White);
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
@@ -427,22 +435,51 @@ namespace Puck_Duck
 
                                 // upward facing pistons
                                 case Type.UpPiston:
-                                    _spriteBatch.Draw(upPiston, tilePos, Color.White);
+                                    if (kbState.IsKeyUp(Keys.Up))
+                                    {
+                                        _spriteBatch.Draw(upPiston, tilePos, Color.White);
+                                    }
+                                    else
+                                    {
+                                        _spriteBatch.Draw(upPistonOpen, tilePos, Color.White);
+                                    }
+                                    
                                     break;
 
                                 // downward facing pistons
                                 case Type.DownPiston:
-                                    _spriteBatch.Draw(downPiston, tilePos, Color.White);
+                                    if (kbState.IsKeyUp(Keys.Down))
+                                    {
+                                        _spriteBatch.Draw(downPiston, tilePos, Color.White);
+                                    }
+                                    else
+                                    {
+                                        _spriteBatch.Draw(downPistonOpen, tilePos, Color.White);
+                                    }
                                     break;
 
                                 // right facing pistons
                                 case Type.RightPiston:
-                                    _spriteBatch.Draw(rightPiston, tilePos, Color.White);
+                                    if (kbState.IsKeyUp(Keys.Right))
+                                    {
+                                        _spriteBatch.Draw(rightPiston, tilePos, Color.White);
+                                    }
+                                    else
+                                    {
+                                        _spriteBatch.Draw(rightPistonOpen, tilePos, Color.White);
+                                    }
                                     break;
 
                                 // left facing pistons
                                 case Type.LeftPiston:
-                                    _spriteBatch.Draw(leftPiston, tilePos, Color.White);
+                                    if (kbState.IsKeyUp(Keys.Left))
+                                    {
+                                        _spriteBatch.Draw(leftPiston, tilePos, Color.White);
+                                    }
+                                    else
+                                    {
+                                        _spriteBatch.Draw(leftPistonOpen, tilePos, Color.White);
+                                    }
                                     break;
 
                                 // start tile
@@ -482,9 +519,13 @@ namespace Puck_Duck
 
                     //draw duck at location of start tile
                     duck.Draw(spriteEffects, _spriteBatch);
-                    evilDuck.Draw(spriteEffects, _spriteBatch);
                     duck.Spawn(startPos);
                     evilDuck.Spawn(evilPos);
+
+                    if (evilPos.X != 0)
+                    {
+                        evilDuck.Draw(spriteEffects, _spriteBatch);
+                    }
 
 
                     //draw piston heads

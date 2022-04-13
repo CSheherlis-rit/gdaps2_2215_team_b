@@ -59,6 +59,8 @@ namespace Puck_Duck
             this.duck = duck;
             this.isEvil = isEvil;
 
+            //pushBox = new Rectangle(position.Center, position.C);
+
             //initialize animation fields
             fps = 6.0;
             timePerFrame = 1.0 / fps;
@@ -137,7 +139,7 @@ namespace Puck_Duck
                 sb.Draw(duck,
                     new Vector2(position.X, position.Y),
                     new Rectangle(frame * FrameWidth, 0, FrameWidth, FrameHeight),
-                    Color.White,
+                    Color.Red,
                     0f,
                     Vector2.Zero,
                     Vector2.One,
@@ -147,12 +149,12 @@ namespace Puck_Duck
             else
             {
                 sb.Draw(
-                    duck, 
-                    new Vector2(position.X, position.Y), 
-                    new Rectangle(frame * FrameWidth, 0, FrameWidth, FrameHeight), 
-                    Color.White, 
-                    0f, 
-                    Vector2.Zero, 
+                    duck,
+                    new Vector2(position.X, position.Y),
+                    new Rectangle(frame * FrameWidth, 0, FrameWidth, FrameHeight),
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
                     Vector2.One,
                     flipsprite,
                     0);
@@ -240,35 +242,32 @@ namespace Puck_Duck
             //temp variables for later comparison
             Type headType;
 
+
             for (int i = 0; i < pistonHeads.Count; i++)
             {
-                if (position.Intersects(pistonHeads[i]))
+                if (position.Contains(pistonHeads[i].Center) && pistons != null)
                 {
-                    //variable for switch statement
-                    if (pistons != null)
+
+                    headType = pistons[i].Type;
+                    
+                    //set the direction to the direction of the piston head
+                    switch (headType)
                     {
-                        headType = pistons[i].Type;
+                        case Type.UpPiston:
+                            position.X = pistonHeads[i].X;
+                            return Direction.Up;
 
-                        //set the direction to the direction of the piston head
-                        switch (headType)
-                        {
-                            case Type.UpPiston:
-                                position.X = pistonHeads[i].X;
-                                return Direction.Up;
+                        case Type.DownPiston:
+                            position.X = pistonHeads[i].X;
+                            return Direction.Down;
 
-                            case Type.DownPiston:
-                                position.X = pistonHeads[i].X;
-                                return Direction.Down;
+                        case Type.LeftPiston:
+                            position.Y = pistonHeads[i].Y;
+                            return Direction.Left;
 
-                            case Type.LeftPiston:
-                                position.Y = pistonHeads[i].Y;
-                                return Direction.Left;
-
-                            case Type.RightPiston:
-                                position.Y = pistonHeads[i].Y;
-                                return Direction.Right;
-                        }
-
+                        case Type.RightPiston:
+                            position.Y = pistonHeads[i].Y;
+                            return Direction.Right;
                     }
                 }
             }

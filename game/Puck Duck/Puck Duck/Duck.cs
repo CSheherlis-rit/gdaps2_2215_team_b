@@ -245,7 +245,7 @@ namespace Puck_Duck
 
             for (int i = 0; i < pistonHeads.Count; i++)
             {
-                if (position.Contains(pistonHeads[i].Center) && pistons != null)
+                if (position.Contains(pistonHeads[i].Center) && pistons != null && pistons.Count == pistonHeads.Count)
                 {
 
                     headType = pistons[i].Type;

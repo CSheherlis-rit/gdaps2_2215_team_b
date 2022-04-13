@@ -532,33 +532,33 @@ namespace Puck_Duck
                     if (pistonsToExtend != null)
                     {
                         //draw extended piston heads in front of all pistons
-                        for (int i = 0; i < pistonsToExtend.Count; i++)
+                        foreach(Tile piston in pistonsToExtend)
                         {
-                            if (pistonsToExtend[0].Type == Type.UpPiston)
+                            if (piston.Type == Type.UpPiston)
                             {
                                 //set position of the piston head infront of the piston
-                                headPos = pistonsToExtend[i].Position;
+                                headPos = piston.Position;
                                 headPos.Y = headPos.Y - 32;
                                 _spriteBatch.Draw(pistonHeadUp, headPos, Color.White);
                                 heads.Add(headPos);
                             }
-                            if (pistonsToExtend[0].Type == Type.DownPiston)
+                            if (piston.Type == Type.DownPiston)
                             {
-                                headPos = pistonsToExtend[i].Position;
+                                headPos = piston.Position;
                                 headPos.Y = headPos.Y + 32;
                                 _spriteBatch.Draw(pistonHeadDown, headPos, Color.White);
                                 heads.Add(headPos);
                             }
-                            if (pistonsToExtend[0].Type == Type.LeftPiston)
+                            if (piston.Type == Type.LeftPiston)
                             {
-                                headPos = pistonsToExtend[i].Position;
+                                headPos = piston.Position;
                                 headPos.X = headPos.X - 32;
                                 _spriteBatch.Draw(pistonHeadLeft, headPos, Color.White);
                                 heads.Add(headPos);
                             }
-                            if (pistonsToExtend[0].Type == Type.RightPiston)
+                            if (piston.Type == Type.RightPiston)
                             {
-                                headPos = pistonsToExtend[i].Position;
+                                headPos = piston.Position;
                                 headPos.X = headPos.X + 32;
                                 _spriteBatch.Draw(pistonHeadRight, headPos, Color.White);
                                 heads.Add(headPos);

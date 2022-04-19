@@ -37,6 +37,10 @@ namespace Puck_Duck
         private const int width = 32;
         private const int height = 32;
 
+        //for randomized wall colors
+        private int wallColor;
+        private Random rng = new Random();
+
         public Type Type
         {
             get { return type; }
@@ -48,9 +52,17 @@ namespace Puck_Duck
             set { position = value; }
         }
 
+        public int WallColor
+        {
+            get { return wallColor; }
+        }
+
         public Tile(Type type)
         {
             this.type = type;
+
+            //only used for wall tile colors
+            this.wallColor = rng.Next(6);
         }
     }
 }

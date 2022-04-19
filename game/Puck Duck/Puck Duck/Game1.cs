@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 
 namespace Puck_Duck
@@ -23,7 +24,9 @@ namespace Puck_Duck
         private SpriteEffects spriteEffects;
         private SpriteFont defaultFont;
         private Texture2D homeScreen;
-        private Texture2D wall;
+        private Texture2D wallRed;
+        private Texture2D wallBlue;
+        private Texture2D wallYellow;
         private Texture2D empty;
         private Texture2D downPiston;
         private Texture2D upPiston;
@@ -103,6 +106,7 @@ namespace Puck_Duck
             collectibles = new List<Collectible>();
             collectedCount = 0;
 
+
             base.Initialize();
         }
 
@@ -112,7 +116,9 @@ namespace Puck_Duck
 
             // TODO: use this.Content to load your game content here
             homeScreen = Content.Load<Texture2D>("PuckDuckHome");
-            wall = Content.Load<Texture2D>("WallFiller");
+            wallRed = Content.Load<Texture2D>("Wall_Red");
+            wallBlue = Content.Load<Texture2D>("Wall_Blue");
+            wallYellow = Content.Load<Texture2D>("Wall_Yellow");
             empty = Content.Load<Texture2D>("EmptyFiller");
             downPiston = Content.Load<Texture2D>("PistonDownClosed");
             upPiston = Content.Load<Texture2D>("PistonUpClosed");
@@ -279,10 +285,10 @@ namespace Puck_Duck
 
                     buttons.Add(new Button(                     // button[2]
                             _graphics.GraphicsDevice,           // device to create a custom texture
-                            new Rectangle(260, 600, 240, 100),  // where to put the button/size of button
+                            new Rectangle(280, 600, 240, 100),  // where to put the button/size of button
                             "MAIN MENU",                        // button label
                             defaultFont,                        // label font
-                            Color.Indigo));                     // button color
+                            Color.Pink));                     // button color
 
                     buttons[0].OnButtonClick += MainMenuButton;
 
@@ -300,10 +306,10 @@ namespace Puck_Duck
 
                     buttons.Add(new Button(                     // button[2]
                             _graphics.GraphicsDevice,           // device to create a custom texture
-                            new Rectangle(260, 600, 240, 100),  // where to put the button/size of button
+                            new Rectangle(280, 600, 240, 100),  // where to put the button/size of button
                             "MAIN MENU",                        // button label
                             defaultFont,                        // label font
-                            Color.Indigo));                     // button color
+                            Color.Pink));                     // button color
 
                     buttons[0].OnButtonClick += MainMenuButton;
 
@@ -314,14 +320,14 @@ namespace Puck_Duck
                     {
                         buttons.Add(new Button(                     //button[3]
                                 _graphics.GraphicsDevice,           // device to create a custom texture
-                                new Rectangle(280, 100, 200, 60),  // where to put the button/size of button
+                                new Rectangle(300, 100, 200, 60),  // where to put the button/size of button
                                 "LEVEL 1",                        // button label
                                 defaultFont,                        // label font
                                 Color.LimeGreen));                     // button color
 
                         buttons.Add(new Button(                     //button[4]
                                 _graphics.GraphicsDevice,           // device to create a custom texture
-                                new Rectangle(280, 200, 200, 60),  // where to put the button/size of button
+                                new Rectangle(300, 200, 200, 60),  // where to put the button/size of button
                                 "LEVEL 2",                        // button label
                                 defaultFont,                        // label font
                                 Color.LimeGreen));                     // button color
@@ -330,7 +336,7 @@ namespace Puck_Duck
 
                         buttons.Add(new Button(                     //button[5]
                                 _graphics.GraphicsDevice,           // device to create a custom texture
-                                new Rectangle(280, 300, 200, 60),  // where to put the button/size of button
+                                new Rectangle(300, 300, 200, 60),  // where to put the button/size of button
                                 "LEVEL 3",                        // button label
                                 defaultFont,                        // label font
                                 Color.LimeGreen));                     // button color
@@ -339,7 +345,7 @@ namespace Puck_Duck
 
                         buttons.Add(new Button(                     //button[6]
                                 _graphics.GraphicsDevice,           // device to create a custom texture
-                                new Rectangle(280, 400, 200, 60),   // where to put the button/size of button
+                                new Rectangle(300, 400, 200, 60),   // where to put the button/size of button
                                 "LEVEL 4",                          // button label
                                 defaultFont,                        // label font
                                 Color.LimeGreen));                    // button color
@@ -354,10 +360,10 @@ namespace Puck_Duck
 
                         buttons.Add(new Button(                     //button[2]
                                 _graphics.GraphicsDevice,           // device to create a custom texture
-                                new Rectangle(260, 600, 240, 100),  // where to put the button/size of button
+                                new Rectangle(280, 685, 240, 100),  // where to put the button/size of button
                                 "MAIN MENU",                        // button label
                                 defaultFont,                        // label font
-                                Color.Indigo));                     // button color
+                                Color.MediumPurple));                     // button color
 
                         buttons[4].OnButtonClick += MainMenuButton;
                     }
@@ -423,7 +429,7 @@ namespace Puck_Duck
                     {
                         for (int j = 0; j < tileMap.Level.GetLength(1); j++)
                         {
-                            tilePos = new Rectangle(i * 32, j * 32, wall.Width, wall.Height);
+                            tilePos = new Rectangle(i * 32, j * 32, wallRed.Width, wallRed.Height);
 
                             // drawing different tiles for the current type of tile
                             switch (tileMap.Level[i, j].Type)
@@ -431,7 +437,7 @@ namespace Puck_Duck
 
                                 // walls
                                 case Type.Wall:
-                                    _spriteBatch.Draw(wall, tilePos, Color.White);
+                                    DrawWalls(tileMap.Level[i,j]);
                                     break;
 
                                 // the goal
@@ -705,6 +711,35 @@ namespace Puck_Duck
             heads.Clear();
             duck.Spawned = false;
             currentState = GameState.Gameplay;
+        }
+
+        private void DrawWalls(Tile tile)
+        {
+            //create pattern of wall colors
+            if (tile.WallColor == 0)
+            {
+                _spriteBatch.Draw(wallRed, tilePos, Color.White);
+            }
+            else if (tile.WallColor == 1)
+            {
+                _spriteBatch.Draw(wallBlue, tilePos, Color.White);
+            }
+            else if (tile.WallColor == 2)
+            {
+                _spriteBatch.Draw(wallBlue, tilePos, Color.White);
+            }
+            else if (tile.WallColor == 3)
+            {
+                _spriteBatch.Draw(wallRed, tilePos, Color.White);
+            }
+            else if (tile.WallColor == 4)
+            {
+                _spriteBatch.Draw(wallBlue, tilePos, Color.Yellow);
+            }
+            else
+            {
+                _spriteBatch.Draw(wallYellow, tilePos, Color.LightPink);
+            }
         }
     }
 }

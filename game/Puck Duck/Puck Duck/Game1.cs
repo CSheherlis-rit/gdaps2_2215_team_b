@@ -350,12 +350,12 @@ namespace Puck_Duck
                                 defaultFont,                        // label font
                                 Color.LimeGreen));                    // button color
 
-                        buttons.Add(new Button(                     //button[6]
-                                _graphics.GraphicsDevice,           // device to create a custom texture
-                                new Rectangle(300, 500, 200, 60),   // where to put the button/size of button
-                                "CHALLENGE LEVEL",                  // button label
-                                defaultFont,                        // label font
-                                Color.OrangeRed));                    // button color
+                        //buttons.Add(new Button(                     //button[6]
+                                //_graphics.GraphicsDevice,           // device to create a custom texture
+                                //new Rectangle(300, 500, 200, 60),   // where to put the button/size of button
+                                //"CHALLENGE LEVEL",                  // button label
+                                //defaultFont,                        // label font
+                                //Color.OrangeRed));                    // button color
 
                         buttons[0].OnButtonClick += Level1Button;
 
@@ -365,7 +365,7 @@ namespace Puck_Duck
 
                         buttons[3].OnButtonClick += Level4Button;
 
-                        buttons[4].OnButtonClick += Level5Button;
+                        //buttons[4].OnButtonClick += Level5Button;
 
                         buttons.Add(new Button(                     //button[2]
                                 _graphics.GraphicsDevice,           // device to create a custom texture
@@ -374,7 +374,7 @@ namespace Puck_Duck
                                 defaultFont,                        // label font
                                 Color.MediumPurple));                     // button color
 
-                        buttons[5].OnButtonClick += MainMenuButton;
+                        buttons[4].OnButtonClick += MainMenuButton;
                     }
 
                     break;

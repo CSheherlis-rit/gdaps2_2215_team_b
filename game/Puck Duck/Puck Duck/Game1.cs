@@ -320,14 +320,14 @@ namespace Puck_Duck
                     {
                         buttons.Add(new Button(                     //button[3]
                                 _graphics.GraphicsDevice,           // device to create a custom texture
-                                new Rectangle(300, 100, 200, 60),  // where to put the button/size of button
+                                new Rectangle(300, 75, 200, 60),  // where to put the button/size of button
                                 "LEVEL 1",                        // button label
                                 defaultFont,                        // label font
                                 Color.LimeGreen));                     // button color
 
                         buttons.Add(new Button(                     //button[4]
                                 _graphics.GraphicsDevice,           // device to create a custom texture
-                                new Rectangle(300, 200, 200, 60),  // where to put the button/size of button
+                                new Rectangle(300, 175, 200, 60),  // where to put the button/size of button
                                 "LEVEL 2",                        // button label
                                 defaultFont,                        // label font
                                 Color.LimeGreen));                     // button color
@@ -336,7 +336,7 @@ namespace Puck_Duck
 
                         buttons.Add(new Button(                     //button[5]
                                 _graphics.GraphicsDevice,           // device to create a custom texture
-                                new Rectangle(300, 300, 200, 60),  // where to put the button/size of button
+                                new Rectangle(300, 275, 200, 60),  // where to put the button/size of button
                                 "LEVEL 3",                        // button label
                                 defaultFont,                        // label font
                                 Color.LimeGreen));                     // button color
@@ -345,17 +345,24 @@ namespace Puck_Duck
 
                         buttons.Add(new Button(                     //button[6]
                                 _graphics.GraphicsDevice,           // device to create a custom texture
-                                new Rectangle(300, 400, 200, 60),   // where to put the button/size of button
+                                new Rectangle(300, 375, 200, 60),   // where to put the button/size of button
                                 "LEVEL 4",                          // button label
                                 defaultFont,                        // label font
                                 Color.LimeGreen));                    // button color
 
-                        //buttons.Add(new Button(                     //button[6]
-                                //_graphics.GraphicsDevice,           // device to create a custom texture
-                                //new Rectangle(300, 500, 200, 60),   // where to put the button/size of button
-                                //"CHALLENGE LEVEL",                  // button label
-                                //defaultFont,                        // label font
-                                //Color.OrangeRed));                    // button color
+                        buttons.Add(new Button(                     //button[6]
+                                _graphics.GraphicsDevice,           // device to create a custom texture
+                                new Rectangle(300, 475, 200, 60),   // where to put the button/size of button
+                                "LEVEL 5",                  // button label
+                                defaultFont,                        // label font
+                                Color.LimeGreen));                    // button color
+
+                        buttons.Add(new Button(                     //button[6]
+                                _graphics.GraphicsDevice,           // device to create a custom texture
+                                new Rectangle(300, 575, 200, 60),   // where to put the button/size of button
+                                "LEVEL 6",                  // button label
+                                defaultFont,                        // label font
+                                Color.LimeGreen));                    // button color
 
                         buttons[0].OnButtonClick += Level1Button;
 
@@ -365,7 +372,9 @@ namespace Puck_Duck
 
                         buttons[3].OnButtonClick += Level4Button;
 
-                        //buttons[4].OnButtonClick += Level5Button;
+                        buttons[4].OnButtonClick += Level5Button;
+
+                        buttons[5].OnButtonClick += Level6Button;
 
                         buttons.Add(new Button(                     //button[2]
                                 _graphics.GraphicsDevice,           // device to create a custom texture
@@ -374,7 +383,7 @@ namespace Puck_Duck
                                 defaultFont,                        // label font
                                 Color.MediumPurple));                     // button color
 
-                        buttons[4].OnButtonClick += MainMenuButton;
+                        buttons[6].OnButtonClick += MainMenuButton;
                     }
 
                     break;
@@ -724,7 +733,18 @@ namespace Puck_Duck
         protected void Level5Button()
         {
             buttons.Clear();
-            tileMap.GenerateTileMap("../../../lvl 9.csv");
+            tileMap.GenerateTileMap("../../../lvl 5.csv");
+
+            //switch to gameplay
+            heads.Clear();
+            duck.Spawned = false;
+            currentState = GameState.Gameplay;
+        }
+
+        protected void Level6Button()
+        {
+            buttons.Clear();
+            tileMap.GenerateTileMap("../../../lvl 6.csv");
 
             //switch to gameplay
             heads.Clear();

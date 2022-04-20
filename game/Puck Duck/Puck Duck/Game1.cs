@@ -694,7 +694,7 @@ namespace Puck_Duck
         protected void Level2Button()
         {
             buttons.Clear();
-            tileMap.GenerateTileMap("../../../lvl 3.csv");
+            tileMap.GenerateTileMap("../../../lvl 2.csv");
 
             //switch to gameplay
             heads.Clear();
@@ -704,7 +704,7 @@ namespace Puck_Duck
         protected void Level3Button()
         {
             buttons.Clear();
-            tileMap.GenerateTileMap("../../../lvl 5.csv");
+            tileMap.GenerateTileMap("../../../lvl 3.csv");
 
             //switch to gameplay
             heads.Clear();
@@ -714,7 +714,7 @@ namespace Puck_Duck
         protected void Level4Button()
         {
             buttons.Clear();
-            tileMap.GenerateTileMap("../../../lvl 6.csv");
+            tileMap.GenerateTileMap("../../../lvl 4.csv");
 
             //switch to gameplay
             heads.Clear();

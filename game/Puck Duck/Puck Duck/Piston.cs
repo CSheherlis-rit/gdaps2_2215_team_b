@@ -22,7 +22,7 @@ namespace Puck_Duck
             this.tileMap = tileMap;
         }
 
-        public List<Tile> checkInput()
+        public List<Tile> CheckInput()
         {
             //get current keyboard state
             currentKbState = Keyboard.GetState();

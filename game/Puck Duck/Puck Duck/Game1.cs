@@ -235,7 +235,7 @@ namespace Puck_Duck
                     }
 
                     //check if pistons are being extended
-                    pistonsToExtend = pistons.checkInput();
+                    pistonsToExtend = pistons.CheckInput();
 
                     foreach (Collectible pickup in collectibles)
                     {

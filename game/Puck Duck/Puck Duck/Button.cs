@@ -43,28 +43,13 @@ namespace Puck_Duck
         /// <param name="text">The text to draw on the button</param>
         /// <param name="font">The font to use when drawing the button text.</param>
         /// <param name="color">The color to make the button's texture.</param>
-        public Button(GraphicsDevice device, Rectangle position, String text, SpriteFont font, Color color)
+        public Button(GraphicsDevice device, Texture2D texture, Rectangle position, Color color)
         {
             // Save copies/references to the info we'll need later
-            this.font = font;
             this.position = position;
-            this.text = text;
 
-            // Figure out where on the button to draw it
-            Vector2 textSize = font.MeasureString(text);
-            textLoc = new Vector2(
-                (position.X + position.Width / 2) - textSize.X / 2,
-                (position.Y + position.Height / 2) - textSize.Y / 2
-            );
-
-            // button text color
-            textColor = Color.White;
-
-            // Make a custom 2d texture for the button itself
-            buttonImg = new Texture2D(device, position.Width, position.Height, false, SurfaceFormat.Color);
-            int[] colorData = new int[buttonImg.Width * buttonImg.Height]; // an array to hold all the pixels of the texture
-            Array.Fill<int>(colorData, (int)color.PackedValue); // fill the array with all the same color
-            buttonImg.SetData<Int32>(colorData,0,colorData.Length); // update the texture's data
+            // set the button's texture
+            buttonImg = texture;
         }
 
         /// <summary>
@@ -99,9 +84,6 @@ namespace Puck_Duck
         {
             // Draw the button itself
             spriteBatch.Draw(buttonImg, position, Color.White);
-
-            // Draw button text over the button
-            spriteBatch.DrawString(font, text, textLoc, textColor);
         }
 
     }

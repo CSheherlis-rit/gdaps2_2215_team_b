@@ -49,6 +49,15 @@ namespace Puck_Duck
         private Texture2D clear1Star;
         private Texture2D clear2Star;
         private Texture2D clear3Star;
+        private Texture2D mainMenuButtonTexture;
+        private Texture2D playButtonTexture;
+        private Texture2D levelsButtonTexture;
+        private Texture2D lvl1Button;
+        private Texture2D lvl2Button;
+        private Texture2D lvl3Button;
+        private Texture2D lvl4Button;
+        private Texture2D lvl5Button;
+        private Texture2D lvl6Button;
         private Duck duck;
         private Duck evilDuck;
         private List<Collectible> collectibles;
@@ -141,6 +150,15 @@ namespace Puck_Duck
             clear1Star = Content.Load<Texture2D>("clear1Star");
             clear2Star = Content.Load<Texture2D>("clear2Star");
             clear3Star = Content.Load<Texture2D>("clear3Star");
+            mainMenuButtonTexture = Content.Load<Texture2D>("menuButtonTexture");
+            playButtonTexture = Content.Load<Texture2D>("playButtonTexture");
+            levelsButtonTexture = Content.Load<Texture2D>("levelsButtonTexture");
+            lvl1Button = Content.Load<Texture2D>("lvlOneButton");
+            lvl2Button = Content.Load<Texture2D>("lvlTwoButton");
+            lvl3Button = Content.Load<Texture2D>("lvlThreeButton");
+            lvl4Button = Content.Load<Texture2D>("lvlFourButton");
+            lvl5Button = Content.Load<Texture2D>("lvlFiveButton");
+            lvl6Button = Content.Load<Texture2D>("lvlSixButton");
 
             defaultFont = this.Content.Load<SpriteFont>("Default");
 
@@ -185,12 +203,11 @@ namespace Puck_Duck
 
                         buttons[0].OnButtonClick += InstructionsButton;*/
 
-                        buttons.Add(new Button(                     //button[1]
-                                _graphics.GraphicsDevice,           // device to create a custom texture
+                        buttons.Add(new Button(                     //LEVELS BUTTON
+                                _graphics.GraphicsDevice,          // device to create a custom texture
+                                levelsButtonTexture,               //texture
                                 new Rectangle(430, 615, 240, 100),  // where to put the button/size of button
-                                "LEVELS",                           // button label
-                                defaultFont,                        // label font
-                                Color.Blue));                       // button color
+                                Color.White));                       // button color
 
                         buttons[0].OnButtonClick += LevelSelectButton;
                     }
@@ -200,21 +217,19 @@ namespace Puck_Duck
                 case GameState.Instructions:
                     if (buttons.Count < 3)
                     {
-                        buttons.Add(new Button(                     //button[7]
+                        buttons.Add(new Button(                     //PLAY BUTTON
                                 _graphics.GraphicsDevice,           // device to create a custom texture
+                                playButtonTexture,                   //texture
                                 new Rectangle(260, 200, 240, 100),  // where to put the button/size of button
-                                "PLAY",                              // button label
-                                defaultFont,                        // label font
-                                Color.Blue));                       // button color
+                                Color.White));                       // button color
 
                         buttons[0].OnButtonClick += PlayButton;
 
-                        buttons.Add(new Button(                     //button[8]
+                        buttons.Add(new Button(                     //MENU BUTTON
                                 _graphics.GraphicsDevice,           // device to create a custom texture
+                                mainMenuButtonTexture,             //texture
                                 new Rectangle(260, 400, 240, 100),  // where to put the button/size of button
-                                "MAIN MENU",                        // button label
-                                defaultFont,                        // label font
-                                Color.Fuchsia));                    // button color
+                                Color.White));                    // button color
 
                         buttons[1].OnButtonClick += MainMenuButton;
                     }
@@ -283,12 +298,11 @@ namespace Puck_Duck
                         currentState = GameState.MainMenu;
                     }
 
-                    buttons.Add(new Button(                     // button[2]
-                            _graphics.GraphicsDevice,           // device to create a custom texture
+                    buttons.Add(new Button(                     // MENU BUTTON
+                            _graphics.GraphicsDevice,          // device to create a custom texture
+                            mainMenuButtonTexture,              //texture
                             new Rectangle(280, 600, 240, 100),  // where to put the button/size of button
-                            "MAIN MENU",                        // button label
-                            defaultFont,                        // label font
-                            Color.Pink));                     // button color
+                            Color.White));                     // button color
 
                     buttons[0].OnButtonClick += MainMenuButton;
 
@@ -304,12 +318,11 @@ namespace Puck_Duck
                         currentState = GameState.MainMenu;
                     }
 
-                    buttons.Add(new Button(                     // button[2]
-                            _graphics.GraphicsDevice,           // device to create a custom texture
+                    buttons.Add(new Button(                     // MENU BUTTON
+                            _graphics.GraphicsDevice,          // device to create a custom texture
+                            mainMenuButtonTexture,             //texture
                             new Rectangle(280, 600, 240, 100),  // where to put the button/size of button
-                            "MAIN MENU",                        // button label
-                            defaultFont,                        // label font
-                            Color.Pink));                     // button color
+                            Color.White));                     // button color
 
                     buttons[0].OnButtonClick += MainMenuButton;
 
@@ -318,51 +331,45 @@ namespace Puck_Duck
                 case GameState.LevelSelect:
                     if (buttons.Count < 5)
                     {
-                        buttons.Add(new Button(                     //button[3]
+                        buttons.Add(new Button(                     //LVL 1 BUTTON
                                 _graphics.GraphicsDevice,           // device to create a custom texture
+                                lvl1Button,                         //texture
                                 new Rectangle(300, 75, 200, 60),  // where to put the button/size of button
-                                "LEVEL 1",                        // button label
-                                defaultFont,                        // label font
-                                Color.LimeGreen));                     // button color
+                                Color.White));                     // button color
 
-                        buttons.Add(new Button(                     //button[4]
-                                _graphics.GraphicsDevice,           // device to create a custom texture
+                        buttons.Add(new Button(                     //LVL 2 BUTTON
+                                _graphics.GraphicsDevice,        // device to create a custom texture
+                                lvl2Button,                      //texture
                                 new Rectangle(300, 175, 200, 60),  // where to put the button/size of button
-                                "LEVEL 2",                        // button label
-                                defaultFont,                        // label font
-                                Color.LimeGreen));                     // button color
+                                Color.White));                     // button color
 
 
 
-                        buttons.Add(new Button(                     //button[5]
-                                _graphics.GraphicsDevice,           // device to create a custom texture
+                        buttons.Add(new Button(                     //LVL 3 BUTTON
+                                _graphics.GraphicsDevice,            // device to create a custom texture
+                                lvl3Button,                         //texture
                                 new Rectangle(300, 275, 200, 60),  // where to put the button/size of button
-                                "LEVEL 3",                        // button label
-                                defaultFont,                        // label font
-                                Color.LimeGreen));                     // button color
+                                Color.White));                     // button color
 
 
 
-                        buttons.Add(new Button(                     //button[6]
+                        buttons.Add(new Button(                     //LVL 4 BUTTON
                                 _graphics.GraphicsDevice,           // device to create a custom texture
+                                lvl4Button,                         //texture
                                 new Rectangle(300, 375, 200, 60),   // where to put the button/size of button
-                                "LEVEL 4",                          // button label
-                                defaultFont,                        // label font
-                                Color.LimeGreen));                    // button color
+                                Color.White));                    // button color
 
-                        buttons.Add(new Button(                     //button[6]
-                                _graphics.GraphicsDevice,           // device to create a custom texture
+                        buttons.Add(new Button(                     //LVL 5 BUTTON
+                                _graphics.GraphicsDevice,          // device to create a custom texture
+                                lvl5Button,                        //texture
                                 new Rectangle(300, 475, 200, 60),   // where to put the button/size of button
-                                "LEVEL 5",                  // button label
-                                defaultFont,                        // label font
-                                Color.LimeGreen));                    // button color
+                                Color.White));                    // button color
 
-                        buttons.Add(new Button(                     //button[6]
+                        buttons.Add(new Button(                     //LVL 6 BUTTON
                                 _graphics.GraphicsDevice,           // device to create a custom texture
+                                lvl6Button,                        //texture
                                 new Rectangle(300, 575, 200, 60),   // where to put the button/size of button
-                                "LEVEL 6",                  // button label
-                                defaultFont,                        // label font
-                                Color.LimeGreen));                    // button color
+                                Color.White));                    // button color
 
                         buttons[0].OnButtonClick += Level1Button;
 
@@ -376,12 +383,11 @@ namespace Puck_Duck
 
                         buttons[5].OnButtonClick += Level6Button;
 
-                        buttons.Add(new Button(                     //button[2]
-                                _graphics.GraphicsDevice,           // device to create a custom texture
+                        buttons.Add(new Button(                     //MENU BUTTON
+                                _graphics.GraphicsDevice,          // device to create a custom texture
+                                mainMenuButtonTexture,             //texture
                                 new Rectangle(280, 685, 240, 100),  // where to put the button/size of button
-                                "MAIN MENU",                        // button label
-                                defaultFont,                        // label font
-                                Color.MediumPurple));                     // button color
+                                Color.White));                     // button color
 
                         buttons[6].OnButtonClick += MainMenuButton;
                     }

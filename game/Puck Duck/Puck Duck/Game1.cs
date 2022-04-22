@@ -476,7 +476,7 @@ namespace Puck_Duck
 
                                 // upward facing pistons
                                 case Type.UpPiston:
-                                    if (kbState.IsKeyUp(Keys.Up))
+                                    if (kbState.IsKeyUp(Keys.Up) && kbState.IsKeyUp(Keys.W))
                                     {
                                         _spriteBatch.Draw(upPiston, tilePos, Color.White);
                                     }
@@ -489,7 +489,7 @@ namespace Puck_Duck
 
                                 // downward facing pistons
                                 case Type.DownPiston:
-                                    if (kbState.IsKeyUp(Keys.Down))
+                                    if (kbState.IsKeyUp(Keys.Down) && kbState.IsKeyUp(Keys.S))
                                     {
                                         _spriteBatch.Draw(downPiston, tilePos, Color.White);
                                     }
@@ -501,7 +501,7 @@ namespace Puck_Duck
 
                                 // right facing pistons
                                 case Type.RightPiston:
-                                    if (kbState.IsKeyUp(Keys.Right))
+                                    if (kbState.IsKeyUp(Keys.Right) && kbState.IsKeyUp(Keys.D))
                                     {
                                         _spriteBatch.Draw(rightPiston, tilePos, Color.White);
                                     }
@@ -513,7 +513,7 @@ namespace Puck_Duck
 
                                 // left facing pistons
                                 case Type.LeftPiston:
-                                    if (kbState.IsKeyUp(Keys.Left))
+                                    if (kbState.IsKeyUp(Keys.Left) && kbState.IsKeyUp(Keys.A))
                                     {
                                         _spriteBatch.Draw(leftPiston, tilePos, Color.White);
                                     }

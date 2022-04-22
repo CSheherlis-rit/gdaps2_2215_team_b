@@ -27,19 +27,19 @@ namespace Puck_Duck
             //get current keyboard state
             currentKbState = Keyboard.GetState();
 
-            if (currentKbState.IsKeyDown(Keys.Up))
+            if (currentKbState.IsKeyDown(Keys.Up) || currentKbState.IsKeyDown(Keys.W))
             {
                 return GetPistons(Type.UpPiston);
             }
-            if (currentKbState.IsKeyDown(Keys.Down))
+            if (currentKbState.IsKeyDown(Keys.Down) || currentKbState.IsKeyDown(Keys.S))
             {
                 return GetPistons(Type.DownPiston);
             }
-            if (currentKbState.IsKeyDown(Keys.Left))
+            if (currentKbState.IsKeyDown(Keys.Left) || currentKbState.IsKeyDown(Keys.A))
             {
                 return GetPistons(Type.LeftPiston);
             }
-            if (currentKbState.IsKeyDown(Keys.Right))
+            if (currentKbState.IsKeyDown(Keys.Right) || currentKbState.IsKeyDown(Keys.D))
             {
                 return GetPistons(Type.RightPiston);
             }

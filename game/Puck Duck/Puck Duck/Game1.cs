@@ -49,6 +49,7 @@ namespace Puck_Duck
         private Texture2D clear1Star;
         private Texture2D clear2Star;
         private Texture2D clear3Star;
+        private Texture2D failScreen;
         private Texture2D mainMenuButtonTexture;
         private Texture2D playButtonTexture;
         private Texture2D levelsButtonTexture;
@@ -150,6 +151,7 @@ namespace Puck_Duck
             clear1Star = Content.Load<Texture2D>("clear1Star");
             clear2Star = Content.Load<Texture2D>("clear2Star");
             clear3Star = Content.Load<Texture2D>("clear3Star");
+            failScreen = Content.Load<Texture2D>("LevelFail");
             mainMenuButtonTexture = Content.Load<Texture2D>("menuButtonTexture");
             playButtonTexture = Content.Load<Texture2D>("playButtonTexture");
             levelsButtonTexture = Content.Load<Texture2D>("levelsButtonTexture");
@@ -610,7 +612,7 @@ namespace Puck_Duck
                         }
                     }
 
-                    _spriteBatch.DrawString(defaultFont, "Moves: " + duck.Moves, new Vector2(10, 10), Color.Black);
+                    _spriteBatch.DrawString(defaultFont, "Moves: " + duck.Moves, new Vector2(10, 10), Color.White);
 
                     break;
 
@@ -648,8 +650,7 @@ namespace Puck_Duck
                     break;
 
                 case GameState.LevelFail:
-                    _spriteBatch.DrawString(defaultFont, "You lost :(\n",
-                        new Vector2(10, 10), Color.Black);
+                    _spriteBatch.Draw(failScreen, new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
 
                     //draw main menu button
                     foreach (Button button in buttons)

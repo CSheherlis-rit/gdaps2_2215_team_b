@@ -18,13 +18,9 @@ namespace Puck_Duck
     public class Button
     {
         // Button specific fields
-        private SpriteFont font;
         private MouseState prevMState;
-        private string text;
         private Rectangle position; // Button position and size
-        private Vector2 textLoc;
         private Texture2D buttonImg;
-        private Color textColor;
 
         /// <summary>
         /// If the client wants to be notified when a button is clicked, it must
